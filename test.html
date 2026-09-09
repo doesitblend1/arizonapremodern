@@ -186,188 +186,188 @@
         </section>
 
         <!-- Loaner Decks Gallery Carousel -->
-        <section>
-            <div class="text-center mb-6 md:mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-[#dcb773] mb-4 uppercase tracking-wide">🎴 No Deck? No Problem.</h2>
-                <p class="text-base md:text-lg max-w-3xl mx-auto text-[#e0d6c8] mb-4">
-                    Looking to try the format but don't have the cardboard? I will have a pool of <strong class="text-[#dcb773]">15 complete preconstructed decks</strong> with me. I will be piloting one, leaving <strong class="text-[#dcb773]">14 available to borrow</strong> on a first-come, first-served basis. These include full 15-card sideboards!
-                </p>
-                <p class="text-xs md:text-sm text-[#8c734a] italic uppercase tracking-wider">Use the arrows below to browse decklists. Click the card to zoom in.</p>
-            </div>
+    <section>
+        <div class="text-center mb-6 md:mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-[#dcb773] mb-4 uppercase tracking-wide">🎴 No Deck? No Problem.</h2>
+            <p class="text-base md:text-lg max-w-3xl mx-auto text-[#e0d6c8] mb-4">
+                Looking to try the format but don't have the cardboard? I will have a pool of <strong class="text-[#dcb773]">15 complete preconstructed decks</strong> with me. I will be piloting one, leaving <strong class="text-[#dcb773]">14 available to borrow</strong> on a first-come, first-served basis. These include full 15-card sideboards!
+            </p>
+            <p class="text-xs md:text-sm text-[#8c734a] italic uppercase tracking-wider">Use the arrows below to browse decklists. Click the card to zoom in.</p>
+        </div>
 
-            <!-- Carousel Container -->
-            <div class="relative w-full bg-[#2a231d] rounded-sm shadow-2xl border-2 border-[#8c734a] p-4 md:p-6">
-                <!-- Navigation Arrows -->
-                <button id="prevDeckBtn" aria-label="Previous Deck" class="absolute left-1 md:left-3 top-1/2 -translate-y-1/2 z-20 bg-[#1a1612]/90 hover:bg-[#8c734a] text-[#dcb773] hover:text-[#1a1612] border border-[#8c734a] w-9 h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-lg md:text-2xl shadow-lg transition-colors cursor-pointer focus:outline-none shrink-0">
-                    &#10094;
-                </button>
-                <button id="nextDeckBtn" aria-label="Next Deck" class="absolute right-1 md:right-3 top-1/2 -translate-y-1/2 z-20 bg-[#1a1612]/90 hover:bg-[#8c734a] text-[#dcb773] hover:text-[#1a1612] border border-[#8c734a] w-9 h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-lg md:text-2xl shadow-lg transition-colors cursor-pointer focus:outline-none shrink-0">
-                    &#10095;
-                </button>
+        <!-- Carousel Container -->
+        <div class="relative w-full bg-[#2a231d] rounded-sm shadow-2xl border-2 border-[#8c734a] p-4 md:p-6">
+            <!-- Navigation Arrows -->
+            <button id="prevDeckBtn" aria-label="Previous Deck" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 bg-[#1a1612]/90 hover:bg-[#8c734a] text-[#dcb773] hover:text-[#1a1612] border border-[#8c734a] w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-xl md:text-2xl shadow-lg transition-colors cursor-pointer focus:outline-none shrink-0">
+                &#10094;
+            </button>
+            <button id="nextDeckBtn" aria-label="Next Deck" class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 bg-[#1a1612]/90 hover:bg-[#8c734a] text-[#dcb773] hover:text-[#1a1612] border border-[#8c734a] w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-xl md:text-2xl shadow-lg transition-colors cursor-pointer focus:outline-none shrink-0">
+                &#10095;
+            </button>
 
-                <!-- Deck Slide Wrapper -->
-                <div id="deckCarousel" class="overflow-hidden relative px-10 md:px-16">
-                    <div id="deckTrack" class="flex transition-transform duration-300 ease-in-out">
-                        
-                        <!-- Deck 1 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="temurmadness-compressed.png" alt="Temur Madness - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Temur+Madness';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Temur Madness</h3>
-                            </div>
+            <!-- Deck Slide Wrapper -->
+            <div id="deckCarousel" class="overflow-hidden relative px-12 md:px-20">
+                <div id="deckTrack" class="flex transition-transform duration-300 ease-in-out">
+                    
+                    <!-- Deck 1 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="0">
+                            <img src="temurmadness-compressed.png" alt="Temur Madness - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Temur+Madness';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
                         </div>
-
-                        <!-- Deck 2 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="Azorius%20Standstill-compressed.png" alt="Azorius Standstill - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Azorius+Standstill';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Azorius Standstill</h3>
-                            </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Temur Madness</h3>
                         </div>
-
-                        <!-- Deck 3 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="groatog-compressed.png" alt="Gro-A-Tog - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Gro-A-Tog';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Gro-A-Tog</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 4 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="gruulelves-compressed.png" alt="Gruul Elves - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Gruul+Elves';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Gruul Elves</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 5 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="gruulgoblin-compressed.png" alt="Gruul Goblins - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Gruul+Goblins';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Gruul Goblins</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 6 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="mbmidrange-compressed.png" alt="Mono-Black Midrange - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Mono-Black+Midrange';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Mono-Black Midrange</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 7 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="mbstif-compressed.png" alt="Mono-Blue Stiflenought - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Mono-Blue+Stiflenought';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Mono-Blue Stiflenought</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 8 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="mrsligh-compressed.png" alt="Mono-Red Sligh - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Mono-Red+Sligh';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Mono-Red Sligh</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 9 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="Naya%20Terragedon-compressed.png" alt="Naya Terragedon - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Naya+Terragedon';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Naya Terragedon</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 10 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="selesnya-compressed.png" alt="Selesnya Enchantress - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Selesnya+Enchantress';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Selesnya Enchantress</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 11 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="iggypop-compressed.png" alt="Iggy Pop - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Iggy+Pop';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Iggy Pop</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 12 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="monowhiteweenie-compressed.png" alt="Mono-White Weenie - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Mono-White+Weenie';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Mono-White Weenie</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 13 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="rocktamination-compressed.png" alt="Rock-tamination - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Rock-tamination';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Rock-tamination</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 14 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="pyrostaticoath-compressed.png" alt="Pyrostatic Oath - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Pyrostatic+Oath';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Pyrostatic Oath</h3>
-                            </div>
-                        </div>
-
-                        <!-- Deck 15 -->
-                        <div class="w-full flex-shrink-0 flex flex-col items-center">
-                            <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
-                                <img src="reanimator-compressed.png" alt="Reanimator - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Reanimator';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
-                            </div>
-                            <div class="p-3 text-center mt-2">
-                                <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Reanimator</h3>
-                            </div>
-                        </div>
-
                     </div>
-                </div>
 
-                <!-- Pagination Counter Indicator -->
-                <div class="text-center mt-4 text-[#bdae93] text-sm md:text-base font-bold tracking-wider">
-                    Deck <span id="currentDeckNum" class="text-[#dcb773]">1</span> of <span id="totalDeckNum">15</span>
+                    <!-- Deck 2 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="1">
+                            <img src="Azorius%20Standstill-compressed.png" alt="Azorius Standstill - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Azorius+Standstill';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Azorius Standstill</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 3 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="2">
+                            <img src="groatog-compressed.png" alt="Gro-A-Tog - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Gro-A-Tog';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Gro-A-Tog</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 4 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="3">
+                            <img src="gruulelves-compressed.png" alt="Gruul Elves - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Gruul+Elves';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Gruul Elves</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 5 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="4">
+                            <img src="gruulgoblin-compressed.png" alt="Gruul Goblins - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Gruul+Goblins';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Gruul Goblins</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 6 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="5">
+                            <img src="mbmidrange-compressed.png" alt="Mono-Black Midrange - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Mono-Black+Midrange';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Mono-Black Midrange</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 7 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="6">
+                            <img src="mbstif-compressed.png" alt="Mono-Blue Stiflenought - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Mono-Blue+Stiflenought';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Mono-Blue Stiflenought</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 8 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="7">
+                            <img src="mrsligh-compressed.png" alt="Mono-Red Sligh - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Mono-Red+Sligh';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Mono-Red Sligh</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 9 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="8">
+                            <img src="Naya%20Terragedon-compressed.png" alt="Naya Terragedon - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Naya+Terragedon';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Naya Terragedon</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 10 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="9">
+                            <img src="selesnya-compressed.png" alt="Selesnya Enchantress - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Selesnya+Enchantress';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Selesnya Enchantress</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 11 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="10">
+                            <img src="iggypop-compressed.png" alt="Iggy Pop - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Iggy+Pop';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Iggy Pop</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 12 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="11">
+                            <img src="monowhiteweenie-compressed.png" alt="Mono-White Weenie - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Mono-White+Weenie';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Mono-White Weenie</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 13 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="12">
+                            <img src="rocktamination-compressed.png" alt="Rock-tamination - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Rock-tamination';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Rock-tamination</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 14 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="13">
+                            <img src="pyrostaticoath-compressed.png" alt="Pyrostatic Oath - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Pyrostatic+Oath';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Pyrostatic Oath</h3>
+                        </div>
+                    </div>
+
+                    <!-- Deck 15 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item" data-index="14">
+                            <img src="reanimator-compressed.png" alt="Reanimator - Premodern Magic the Gathering Deck" onerror="this.onerror=null; this.src='https://placehold.co/600x840/2a231d/dcb773?text=Reanimator';" class="deck-img w-full aspect-[2.5/3.5] object-cover group-hover:opacity-90 transition-opacity border-b-2 border-[#5c4e3d]">
+                        </div>
+                        <div class="p-3 text-center mt-2">
+                            <h3 class="font-bold text-[#e0d6c8] text-lg md:text-xl uppercase tracking-wide">Reanimator</h3>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </section>
+
+            <!-- Pagination Counter Indicator -->
+            <div class="text-center mt-4 text-[#bdae93] text-sm md:text-base font-bold tracking-wider">
+                Deck <span id="currentDeckNum" class="text-[#dcb773]">1</span> of <span id="totalDeckNum">15</span>
+            </div>
+        </div>
+    </section>
 
     </main>
 
@@ -382,9 +382,21 @@
     </footer>
 
     <!-- Image Modal Lightbox -->
-    <div id="imageModal" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300 cursor-zoom-out">
-        <span id="closeModalBtn" class="absolute top-4 right-4 md:top-6 md:right-8 text-[#bdae93] text-4xl md:text-5xl font-bold cursor-pointer hover:text-[#dcb773] transition-colors">&times;</span>
-        <img id="modalImage" src="" alt="Expanded Deck Image" class="max-w-full max-h-[90vh] object-contain rounded-sm shadow-2xl border-2 md:border-4 border-[#8c734a] scale-95 transition-transform duration-300 cursor-default">
+    <div id="imageModal" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <span id="closeModalBtn" class="absolute top-4 right-4 md:top-6 md:right-8 text-[#bdae93] text-4xl md:text-5xl font-bold cursor-pointer hover:text-[#dcb773] transition-colors z-30">&times;</span>
+        
+        <!-- Modal Navigation Arrows -->
+        <button id="modalPrevBtn" aria-label="Previous Deck in Modal" class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-30 bg-[#1a1612]/90 hover:bg-[#8c734a] text-[#dcb773] hover:text-[#1a1612] border border-[#8c734a] w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center font-bold text-2xl md:text-3xl shadow-xl transition-colors cursor-pointer focus:outline-none">
+            &#10094;
+        </button>
+        <button id="modalNextBtn" aria-label="Next Deck in Modal" class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-30 bg-[#1a1612]/90 hover:bg-[#8c734a] text-[#dcb773] hover:text-[#1a1612] border border-[#8c734a] w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center font-bold text-2xl md:text-3xl shadow-xl transition-colors cursor-pointer focus:outline-none">
+            &#10095;
+        </button>
+
+        <div class="flex flex-col items-center justify-center max-w-full max-h-[90vh]">
+            <img id="modalImage" src="" alt="Expanded Deck Image" class="max-w-[80vw] max-h-[80vh] object-contain rounded-sm shadow-2xl border-2 md:border-4 border-[#8c734a] scale-95 transition-transform duration-300">
+            <p id="modalCaption" class="text-[#dcb773] font-bold text-base md:text-xl uppercase tracking-wide mt-3 text-center drop-shadow"></p>
+        </div>
     </div>
 
     <!-- Modal & Carousel Script -->
@@ -431,29 +443,41 @@
 
         function handleSwipe() {
             if (touchEndX < touchStartX - 50) {
-                // Swiped left -> next
                 currentIndex = (currentIndex === totalSlides - 1) ? 0 : currentIndex + 1;
                 updateCarousel();
             }
             if (touchEndX > touchStartX + 50) {
-                // Swiped right -> prev
                 currentIndex = (currentIndex === 0) ? totalSlides - 1 : currentIndex - 1;
                 updateCarousel();
             }
         }
 
-        // Image Modal Lightbox Logic
+        // Image Modal Lightbox Logic with In-Modal Navigation
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
         const deckImages = document.querySelectorAll('.deck-img');
         const closeBtn = document.getElementById('closeModalBtn');
+        const modalPrevBtn = document.getElementById('modalPrevBtn');
+        const modalNextBtn = document.getElementById('modalNextBtn');
 
-        // Open modal on image click (or on container click)
-        deckImages.forEach(img => {
+        let activeModalIndex = 0;
+
+        function showModalForIndex(index) {
+            activeModalIndex = index;
+            const targetSlide = slides[activeModalIndex];
+            const imgEl = targetSlide.querySelector('.deck-img');
+            const titleEl = targetSlide.querySelector('h3');
+
+            const sourceToUse = imgEl.src.includes('placehold.co') ? imgEl.src : imgEl.getAttribute('src');
+            modalImg.src = sourceToUse;
+            modalCaption.textContent = titleEl ? titleEl.textContent : '';
+        }
+
+        deckImages.forEach((img, idx) => {
             const slideItem = img.closest('.deck-slide-item');
             const openAction = function() {
-                const sourceToUse = img.src.includes('placehold.co') ? img.src : img.getAttribute('src');
-                modalImg.src = sourceToUse;
+                showModalForIndex(idx);
                 
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
@@ -473,7 +497,24 @@
             }
         });
 
-        // Close modal function
+        modalPrevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            activeModalIndex = (activeModalIndex === 0) ? totalSlides - 1 : activeModalIndex - 1;
+            showModalForIndex(activeModalIndex);
+            // Sync main carousel position too
+            currentIndex = activeModalIndex;
+            updateCarousel();
+        });
+
+        modalNextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            activeModalIndex = (activeModalIndex === totalSlides - 1) ? 0 : activeModalIndex + 1;
+            showModalForIndex(activeModalIndex);
+            // Sync main carousel position too
+            currentIndex = activeModalIndex;
+            updateCarousel();
+        });
+
         const closeModal = () => {
             modal.classList.add('opacity-0');
             modalImg.classList.remove('scale-100');
@@ -483,6 +524,7 @@
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
                 modalImg.src = '';
+                modalCaption.textContent = '';
                 document.body.style.overflow = 'auto'; 
             }, 300);
         };
@@ -496,11 +538,21 @@
         closeBtn.addEventListener('click', closeModal);
         
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                closeModal();
-            }
-            // Optional: Keyboard arrow navigation when modal is closed
-            if (modal.classList.contains('hidden')) {
+            if (!modal.classList.contains('hidden')) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                } else if (e.key === 'ArrowLeft') {
+                    activeModalIndex = (activeModalIndex === 0) ? totalSlides - 1 : activeModalIndex - 1;
+                    showModalForIndex(activeModalIndex);
+                    currentIndex = activeModalIndex;
+                    updateCarousel();
+                } else if (e.key === 'ArrowRight') {
+                    activeModalIndex = (activeModalIndex === totalSlides - 1) ? 0 : activeModalIndex + 1;
+                    showModalForIndex(activeModalIndex);
+                    currentIndex = activeModalIndex;
+                    updateCarousel();
+                }
+            } else {
                 if (e.key === 'ArrowLeft') {
                     currentIndex = (currentIndex === 0) ? totalSlides - 1 : currentIndex - 1;
                     updateCarousel();
