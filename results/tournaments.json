@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Arizona Premodern August 2026 Monthly",
+    "date": "2026-08-01",
+    "standingsFile": "August-Monthly-2026-Standings.json",
+    "decklistsFile": "August-Monthly-2026-Decklists.json"
+  },
+  {
+    "name": "Arizona Premodern September 2026 Monthly",
+    "date": "2026-09-05",
+    "standingsFile": "September-Monthly-2026-Standings.json",
+    "decklistsFile": "September-Monthly-2026-Decklists.json"
+  }
+]
