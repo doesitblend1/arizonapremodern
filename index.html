@@ -542,7 +542,7 @@ async function fetchDiscordStats() {
   } catch (error) {
     console.warn('Discord stats fetch delayed, retrying in 3 seconds...', error);
     // Automatically try again in 3 seconds until it succeeds
-    setTimeout(fetchDiscordStats, 3000);
+    setTimeout(fetchDiscordStats, 500);
   }
 }
 
