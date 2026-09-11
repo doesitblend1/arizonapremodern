@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournament Standings - Premodern</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #d4b58e;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 24px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #e6c8a0;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    #round-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .round-btn {
+      background: rgba(44, 34, 30, 0.6);
+      color: #d4b58e;
+      border: 1px solid #4a3b2c;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .round-btn.active {
+      background: #d4b58e;
+      color: #2c221e;
+      border-color: #d4b58e;
+      font-weight: bold;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+      background-color: rgba(0, 0, 0, 0.3);
+      border: 1px solid #4a3b2c;
+      border-radius: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    th {
+      background-color: rgba(74, 59, 44, 0.3);
+      color: #e6c8a0;
+      padding: 12px 16px;
+      border-bottom: 1px solid #4a3b2c;
+      font-weight: 600;
+    }
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(74, 59, 44, 0.2);
+    }
+    tr:hover td {
+      background-color: rgba(212, 181, 142, 0.03);
+    }
+    .points-cell {
+      font-weight: bold;
+      color: #e6c8a0;
+    }
+    .loading-state, .error-state {
+      padding: 40px;
+      text-align: center;
+      color: #e6c8a0;
+    }
+    .error-state {
+      color: #e57373;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Tournament Standings</h1>
+  
+  <div id="round-buttons"></div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Decklist</th>
+          <th>Match Record</th>
+          <th>Game Record</th>
+          <th>Points</th>
+          <th>OMW%</th>
+          <th>TGW%</th>
+          <th>OGW%</th>
+        </tr>
+      </thead>
+      <tbody id="standings-tbody">
+        <tr>
+          <td colspan="9" class="loading-state">Loading standings...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+async function loadStandings() {
+  const jsonUrl = 'Standings-tournament-441561.json'; 
+
+  try {
+    const response = await fetch(jsonUrl);
+    if (!response.ok) throw new Error('Failed to load JSON data');
+    
+    const data = await response.json();
+    
+    const roundsMap = {};
+    const roundOrder = [];
+
+    data.forEach(item => {
+      const roundKey = item.Round || `Round ${item.RoundNumber}`;
+      if (!roundsMap[roundKey]) {
+        roundsMap[roundKey] = [];
+        roundOrder.push({ key: roundKey, phaseSort: item.PhaseSortOrder, roundNum: item.RoundNumber });
+      }
+      roundsMap[roundKey].push(item);
+    });
+
+    roundOrder.sort((a, b) => {
+      if (a.phaseSort !== b.phaseSort) return a.phaseSort - b.phaseSort;
+      return a.roundNum - b.roundNum;
+    });
+
+    const uniqueRounds = roundOrder.map(r => r.key);
+    let activeRound = uniqueRounds[uniqueRounds.length - 1];
+
+    const buttonsContainer = document.getElementById('round-buttons');
+    const tbody = document.getElementById('standings-tbody');
+
+    function renderTable(roundKey) {
+      const standings = roundsMap[roundKey] || [];
+      standings.sort((a, b) => a.Rank - b.Rank);
+
+      if (standings.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="loading-state">No data available for this round.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = standings.map(row => {
+        const playerName = row.Team && row.Team.Players && row.Team.Players[0] 
+          ? row.Team.Players[0].DisplayName 
+          : 'Unknown';
+          
+        const deckName = row.Decklists && row.Decklists[0] 
+          ? row.Decklists[0].DecklistName 
+          : '-';
+
+        return `
+          <tr>
+            <td>${row.Rank}</td>
+            <td>${playerName}</td>
+            <td>${deckName}</td>
+            <td>${row.MatchRecord}</td>
+            <td>${row.GameRecord}</td>
+            <td class="points-cell">${row.Points}</td>
+            <td>${(row.OpponentMatchWinPercentage * 100).toFixed(2)}%</td>
+            <td>${(row.TeamGameWinPercentage * 100).toFixed(2)}%</td>
+            <td>${(row.OpponentGameWinPercentage * 100).toFixed(2)}%</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderButtons() {
+      buttonsContainer.innerHTML = uniqueRounds.map(roundKey => {
+        const isActive = roundKey === activeRound;
+        return `<button class="round-btn ${isActive ? 'active' : ''}" data-round="${roundKey}">${roundKey}</button>`;
+      }).join('');
+
+      buttonsContainer.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          activeRound = e.target.getAttribute('data-round');
+          renderButtons();
+          renderTable(activeRound);
+        });
+      });
+    }
+
+    renderButtons();
+    renderTable(activeRound);
+
+  } catch (error) {
+    console.error('Error loading standings:', error);
+    document.getElementById('standings-tbody').innerHTML = `<tr><td colspan="9" class="error-state">Failed to load tournament standings. Ensure the JSON file is in the root directory and running via a local server.</td></tr>`;
+  }
+}
+
+loadStandings();
+</script>
+
+</body>
+</html>
