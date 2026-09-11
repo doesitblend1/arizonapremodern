@@ -526,9 +526,8 @@
                 }
             }
         });
-
-        // Discord Stats Widget Script
-async function fetchDiscordStats(retries = 2) {
+// Discord Widget Fetch
+async function fetchDiscordStats() {
   const workerUrl = 'https://discordstatbot.eric-d-schaub.workers.dev/';
   
   try {
@@ -537,20 +536,19 @@ async function fetchDiscordStats(retries = 2) {
     
     const data = await response.json();
     
+    // Successfully got the data, update the numbers and stop trying
     document.getElementById('discord-online').innerText = (data.online || 0).toLocaleString();
     document.getElementById('discord-total').innerText = (data.total || 0).toLocaleString();
   } catch (error) {
-    console.warn('Discord stats fetch failed, retrying...', error);
-    if (retries > 0) {
-      setTimeout(() => fetchDiscordStats(retries - 1), 2000);
-    } else {
-      document.getElementById('discord-online').innerText = '--';
-      document.getElementById('discord-total').innerText = '--';
-    }
+    console.warn('Discord stats fetch delayed, retrying in 3 seconds...', error);
+    // Automatically try again in 3 seconds until it succeeds
+    setTimeout(fetchDiscordStats, 3000);
   }
 }
 
+// Kick off the initial fetch on page load
 fetchDiscordStats();
+        
     </script>
 </body>
 </html>
