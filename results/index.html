@@ -74,6 +74,81 @@
       font-weight: bold;
       color: #e6c8a0;
     }
+    .deck-link {
+      color: #e6c8a0;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .deck-link:hover {
+      color: #fff;
+    }
+    /* Modal Popup Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(2px);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.open {
+      display: flex;
+    }
+    .modal-content {
+      background-color: #1a1614;
+      border: 1px solid #4a3b2c;
+      border-radius: 8px;
+      padding: 24px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      color: #d4b58e;
+      font-size: 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .close-modal:hover {
+      color: #fff;
+    }
+    .modal-content h3 {
+      margin-top: 0;
+      color: #e6c8a0;
+      font-size: 18px;
+      border-bottom: 1px solid #4a3b2c;
+      padding-bottom: 10px;
+    }
+    .modal-info {
+      margin: 6px 0;
+      font-size: 14px;
+    }
+    .decklist-section {
+      margin-top: 15px;
+      font-size: 13px;
+    }
+    .decklist-section h4 {
+      color: #e6c8a0;
+      margin: 10px 0 5px 0;
+      border-bottom: 1px dashed #4a3b2c;
+      padding-bottom: 4px;
+    }
+    .decklist-section ul {
+      margin: 0;
+      padding-left: 20px;
+    }
     .loading-state, .error-state {
       padding: 40px;
       text-align: center;
@@ -115,20 +190,44 @@
   </div>
 </div>
 
-<script>
-async function loadStandings() {
-  const jsonUrl = 'Standings-tournament-441561.json'; 
+<!-- Deck Details Modal -->
+<div id="deck-modal" class="modal">
+  <div class="modal-content">
+    <button class="close-modal" id="modal-close">&times;</button>
+    <h3 id="modal-deck-title">Deck Details</h3>
+    <div class="modal-info"><strong>Player:</strong> <span id="modal-player-name">--</span></div>
+    <div class="modal-info"><strong>Archetype:</strong> <span id="modal-deck-name">--</span></div>
+    
+    <div id="decklist-container">
+      <!-- Cards dynamically injected here -->
+    </div>
+  </div>
+</div>
 
+<script>
+async function loadTournamentData() {
   try {
-    const response = await fetch(jsonUrl);
-    if (!response.ok) throw new Error('Failed to load JSON data');
+    // Load both JSON files concurrently
+    const [standingsRes, decklistsRes] = await Promise.all([
+      fetch('Standings-tournament-441561.json'),
+      fetch('decklists-export-20260911_234215.json')
+    ]);
+
+    if (!standingsRes.ok || !decklistsRes.ok) throw new Error('Failed to load JSON datasets');
     
-    const data = await response.json();
-    
+    const standingsData = await standingsRes.json();
+    const decklistsData = await decklistsRes.json();
+
+    // Map decklists by PlayerId for fast lookup
+    const decklistsMap = {};
+    decklistsData.forEach(deck => {
+      decklistsMap[deck.PlayerId] = deck;
+    });
+
     const roundsMap = {};
     const roundOrder = [];
 
-    data.forEach(item => {
+    standingsData.forEach(item => {
       const roundKey = item.Round || `Round ${item.RoundNumber}`;
       if (!roundsMap[roundKey]) {
         roundsMap[roundKey] = [];
@@ -147,6 +246,17 @@ async function loadStandings() {
 
     const buttonsContainer = document.getElementById('round-buttons');
     const tbody = document.getElementById('standings-tbody');
+    const modal = document.getElementById('deck-modal');
+    const modalClose = document.getElementById('modal-close');
+    
+    const modalPlayer = document.getElementById('modal-player-name');
+    const modalDeck = document.getElementById('modal-deck-name');
+    const decklistContainer = document.getElementById('decklist-container');
+
+    modalClose.addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('open');
+    });
 
     function renderTable(roundKey) {
       const standings = roundsMap[roundKey] || [];
@@ -158,19 +268,22 @@ async function loadStandings() {
       }
 
       tbody.innerHTML = standings.map(row => {
-        const playerName = row.Team && row.Team.Players && row.Team.Players[0] 
-          ? row.Team.Players[0].DisplayName 
-          : 'Unknown';
+        const playerObj = row.Team && row.Team.Players && row.Team.Players[0] ? row.Team.Players[0] : null;
+        const playerName = playerObj ? playerObj.DisplayName : 'Unknown';
+        const playerId = playerObj ? playerObj.ID : null;
           
-        const deckName = row.Decklists && row.Decklists[0] 
-          ? row.Decklists[0].DecklistName 
+        const deckObj = row.Decklists && row.Decklists[0] ? row.Decklists[0] : null;
+        const deckName = deckObj ? deckObj.DecklistName : '-';
+
+        const deckHtml = deckName !== '-' 
+          ? `<span class="deck-link" data-player-id="${playerId}">${deckName}</span>` 
           : '-';
 
         return `
           <tr>
             <td>${row.Rank}</td>
             <td>${playerName}</td>
-            <td>${deckName}</td>
+            <td>${deckHtml}</td>
             <td>${row.MatchRecord}</td>
             <td>${row.GameRecord}</td>
             <td class="points-cell">${row.Points}</td>
@@ -180,6 +293,51 @@ async function loadStandings() {
           </tr>
         `;
       }).join('');
+
+      // Bind click events to open decklist modal
+      tbody.querySelectorAll('.deck-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const playerId = parseInt(e.target.getAttribute('data-player-id'), 10);
+          const deckData = decklistsMap[playerId];
+
+          if (!deckData) {
+            modalPlayer.innerText = 'Unknown';
+            modalDeck.innerText = e.target.innerText;
+            decklistContainer.innerHTML = `<p style="color: #e57373; margin-top: 15px;">Detailed decklist not found in export data.</p>`;
+          } else {
+            modalPlayer.innerText = deckData.OwnerNameFirstLast;
+            modalDeck.innerText = deckData.DecklistName;
+
+            // Separate Mainboard (c === 0) and Sideboard (c === 99)
+            const mainboard = [];
+            const sideboard = [];
+
+            deckData.Records.forEach(record => {
+              const cardEntry = `${record.q}x ${record.n}`;
+              if (record.c === 99) {
+                sideboard.push(cardEntry);
+              } else {
+                mainboard.push(cardEntry);
+              }
+            });
+
+            decklistContainer.innerHTML = `
+              <div class="decklist-section">
+                <h4>Mainboard (${mainboard.reduce((sum, r) => sum + parseInt(r), 0)} cards)</h4>
+                <ul>${mainboard.map(card => `<li>${card}</li>`).join('')}</ul>
+              </div>
+              ${sideboard.length > 0 ? `
+                <div class="decklist-section">
+                  <h4>Sideboard</h4>
+                  <ul>${sideboard.map(card => `<li>${card}</li>`).join('')}</ul>
+                </div>
+              ` : ''}
+            `;
+          }
+
+          modal.classList.add('open');
+        });
+      });
     }
 
     function renderButtons() {
@@ -201,12 +359,12 @@ async function loadStandings() {
     renderTable(activeRound);
 
   } catch (error) {
-    console.error('Error loading standings:', error);
-    document.getElementById('standings-tbody').innerHTML = `<tr><td colspan="9" class="error-state">Failed to load tournament standings. Ensure the JSON file is in the root directory and running via a local server.</td></tr>`;
+    console.error('Error loading tournament data:', error);
+    document.getElementById('standings-tbody').innerHTML = `<tr><td colspan="9" class="error-state">Failed to load tournament data. Ensure both JSON files are in the root directory and running via a local server.</td></tr>`;
   }
 }
 
-loadStandings();
+loadTournamentData();
 </script>
 
 </body>
