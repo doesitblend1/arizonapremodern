@@ -207,7 +207,6 @@
 <script>
 async function loadTournamentData() {
   try {
-    // Load both JSON files concurrently
     const [standingsRes, decklistsRes] = await Promise.all([
       fetch('Standings-tournament-441561.json'),
       fetch('decklists-export-20260911_234215.json')
@@ -218,7 +217,7 @@ async function loadTournamentData() {
     const standingsData = await standingsRes.json();
     const decklistsData = await decklistsRes.json();
 
-    // Map decklists by PlayerId for fast lookup
+    // Map decklists by PlayerId for fast card lookup
     const decklistsMap = {};
     decklistsData.forEach(deck => {
       decklistsMap[deck.PlayerId] = deck;
@@ -273,10 +272,11 @@ async function loadTournamentData() {
         const playerId = playerObj ? playerObj.ID : null;
           
         const deckObj = row.Decklists && row.Decklists[0] ? row.Decklists[0] : null;
+        // Grab the clean deck name directly from the standings JSON record
         const deckName = deckObj ? deckObj.DecklistName : '-';
 
         const deckHtml = deckName !== '-' 
-          ? `<span class="deck-link" data-player-id="${playerId}">${deckName}</span>` 
+          ? `<span class="deck-link" data-player-id="${playerId}" data-deck-name="${deckName}">${deckName}</span>` 
           : '-';
 
         return `
@@ -298,17 +298,15 @@ async function loadTournamentData() {
       tbody.querySelectorAll('.deck-link').forEach(link => {
         link.addEventListener('click', (e) => {
           const playerId = parseInt(e.target.getAttribute('data-player-id'), 10);
+          const cleanDeckName = e.target.getAttribute('data-deck-name');
           const deckData = decklistsMap[playerId];
 
-          if (!deckData) {
-            modalPlayer.innerText = 'Unknown';
-            modalDeck.innerText = e.target.innerText;
-            decklistContainer.innerHTML = `<p style="color: #e57373; margin-top: 15px;">Detailed decklist not found in export data.</p>`;
-          } else {
-            modalPlayer.innerText = deckData.OwnerNameFirstLast;
-            modalDeck.innerText = deckData.DecklistName;
+          modalPlayer.innerText = deckData ? deckData.OwnerNameFirstLast : e.target.closest('tr').cells[1].innerText;
+          modalDeck.innerText = cleanDeckName;
 
-            // Separate Mainboard (c === 0) and Sideboard (c === 99)
+          if (!deckData || !deckData.Records) {
+            decklistContainer.innerHTML = `<p style="color: #e57373; margin-top: 15px;">Detailed decklist cards not found in export data.</p>`;
+          } else {
             const mainboard = [];
             const sideboard = [];
 
@@ -323,7 +321,7 @@ async function loadTournamentData() {
 
             decklistContainer.innerHTML = `
               <div class="decklist-section">
-                <h4>Mainboard (${mainboard.reduce((sum, r) => sum + parseInt(r), 0)} cards)</h4>
+                <h4>Mainboard</h4>
                 <ul>${mainboard.map(card => `<li>${card}</li>`).join('')}</ul>
               </div>
               ${sideboard.length > 0 ? `
