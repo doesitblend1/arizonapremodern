@@ -21,13 +21,24 @@
       font-size: 24px;
       margin-bottom: 20px;
     }
-    #round-buttons {
+    .nav-bar {
       display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
+      align-items: center;
+      border-bottom: 1px solid #4a3b2c;
+      padding-bottom: 15px;
     }
-    .round-btn {
+    .nav-label {
+      font-size: 13px;
+      color: #a39078;
+      margin-right: 5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tournament-btn, .round-btn {
       background: rgba(44, 34, 30, 0.6);
       color: #d4b58e;
       border: 1px solid #4a3b2c;
@@ -37,11 +48,17 @@
       font-weight: 500;
       transition: all 0.2s ease;
     }
-    .round-btn.active {
+    .tournament-btn.active, .round-btn.active {
       background: #d4b58e;
       color: #2c221e;
       border-color: #d4b58e;
       font-weight: bold;
+    }
+    #round-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
     .table-wrapper {
       overflow-x: auto;
@@ -82,7 +99,7 @@
     .deck-link:hover {
       color: #fff;
     }
-    /* Modal Popup Styling */
+    /* Modal Styling */
     .modal {
       display: none;
       position: fixed;
@@ -164,6 +181,12 @@
 <div class="container">
   <h1>Tournament Standings</h1>
   
+  <!-- Tournament Month/Year Navigation Bar -->
+  <div id="tournament-nav" class="nav-bar">
+    <span class="nav-label">Tournament:</span>
+  </div>
+
+  <!-- Round Selector Buttons -->
   <div id="round-buttons"></div>
 
   <div class="table-wrapper">
@@ -183,7 +206,7 @@
       </thead>
       <tbody id="standings-tbody">
         <tr>
-          <td colspan="9" class="loading-state">Loading standings...</td>
+          <td colspan="9" class="loading-state">Loading tournaments...</td>
         </tr>
       </tbody>
     </table>
@@ -197,57 +220,34 @@
     <h3 id="modal-deck-title">Deck Details</h3>
     <div class="modal-info"><strong>Player:</strong> <span id="modal-player-name">--</span></div>
     <div class="modal-info"><strong>Archetype:</strong> <span id="modal-deck-name">--</span></div>
-    
-    <div id="decklist-container">
-      <!-- Cards dynamically injected here -->
-    </div>
+    <div id="decklist-container"></div>
   </div>
 </div>
 
 <script>
-async function loadTournamentData() {
+async function initApp() {
   try {
-    const [standingsRes, decklistsRes] = await Promise.all([
-      fetch('Standings-tournament-441561.json'),
-      fetch('decklists-export-20260911_234215.json')
-    ]);
-
-    if (!standingsRes.ok || !decklistsRes.ok) throw new Error('Failed to load JSON datasets');
+    const manifestRes = await fetch('tournaments.json');
+    if (!manifestRes.ok) throw new Error('Failed to load tournaments.json manifest');
     
-    const standingsData = await standingsRes.json();
-    const decklistsData = await decklistsRes.json();
+    let tournaments = await manifestRes.json();
+    
+    // Sort tournaments descending by date (most recent first)
+    tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    // Map decklists by PlayerId for fast card lookup
-    const decklistsMap = {};
-    decklistsData.forEach(deck => {
-      decklistsMap[deck.PlayerId] = deck;
-    });
+    if (tournaments.length === 0) {
+      document.getElementById('standings-tbody').innerHTML = `<tr><td colspan="9" class="error-state">No tournaments found in manifest.</td></tr>`;
+      return;
+    }
 
-    const roundsMap = {};
-    const roundOrder = [];
+    let activeTournament = tournaments[0]; // Default to most recent
 
-    standingsData.forEach(item => {
-      const roundKey = item.Round || `Round ${item.RoundNumber}`;
-      if (!roundsMap[roundKey]) {
-        roundsMap[roundKey] = [];
-        roundOrder.push({ key: roundKey, phaseSort: item.PhaseSortOrder, roundNum: item.RoundNumber });
-      }
-      roundsMap[roundKey].push(item);
-    });
-
-    roundOrder.sort((a, b) => {
-      if (a.phaseSort !== b.phaseSort) return a.phaseSort - b.phaseSort;
-      return a.roundNum - b.roundNum;
-    });
-
-    const uniqueRounds = roundOrder.map(r => r.key);
-    let activeRound = uniqueRounds[uniqueRounds.length - 1];
-
-    const buttonsContainer = document.getElementById('round-buttons');
+    const tournamentNav = document.getElementById('tournament-nav');
+    const roundButtonsContainer = document.getElementById('round-buttons');
     const tbody = document.getElementById('standings-tbody');
+    
     const modal = document.getElementById('deck-modal');
     const modalClose = document.getElementById('modal-close');
-    
     const modalPlayer = document.getElementById('modal-player-name');
     const modalDeck = document.getElementById('modal-deck-name');
     const decklistContainer = document.getElementById('decklist-container');
@@ -257,112 +257,184 @@ async function loadTournamentData() {
       if (e.target === modal) modal.classList.remove('open');
     });
 
-    function renderTable(roundKey) {
-      const standings = roundsMap[roundKey] || [];
-      standings.sort((a, b) => a.Rank - b.Rank);
+    function formatMonthYear(dateString) {
+      const d = new Date(dateString);
+      return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
 
-      if (standings.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="9" class="loading-state">No data available for this round.</td></tr>`;
-        return;
-      }
+    async function loadTournament(tournament) {
+      tbody.innerHTML = `<tr><td colspan="9" class="loading-state">Loading tournament data...</td></tr>`;
 
-      tbody.innerHTML = standings.map(row => {
-        const playerObj = row.Team && row.Team.Players && row.Team.Players[0] ? row.Team.Players[0] : null;
-        const playerName = playerObj ? playerObj.DisplayName : 'Unknown';
-        const playerId = playerObj ? playerObj.ID : null;
-          
-        const deckObj = row.Decklists && row.Decklists[0] ? row.Decklists[0] : null;
-        // Grab the clean deck name directly from the standings JSON record
-        const deckName = deckObj ? deckObj.DecklistName : '-';
+      try {
+        const [standingsRes, decklistsRes] = await Promise.all([
+          fetch(tournament.standingsFile),
+          fetch(tournament.decklistsFile)
+        ]);
 
-        const deckHtml = deckName !== '-' 
-          ? `<span class="deck-link" data-player-id="${playerId}" data-deck-name="${deckName}">${deckName}</span>` 
-          : '-';
+        if (!standingsRes.ok || !decklistsRes.ok) throw new Error('Failed to load tournament files');
 
-        return `
-          <tr>
-            <td>${row.Rank}</td>
-            <td>${playerName}</td>
-            <td>${deckHtml}</td>
-            <td>${row.MatchRecord}</td>
-            <td>${row.GameRecord}</td>
-            <td class="points-cell">${row.Points}</td>
-            <td>${(row.OpponentMatchWinPercentage * 100).toFixed(2)}%</td>
-            <td>${(row.TeamGameWinPercentage * 100).toFixed(2)}%</td>
-            <td>${(row.OpponentGameWinPercentage * 100).toFixed(2)}%</td>
-          </tr>
-        `;
-      }).join('');
+        const standingsData = await standingsRes.json();
+        const decklistsData = await decklistsRes.json();
 
-      // Bind click events to open decklist modal
-      tbody.querySelectorAll('.deck-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-          const playerId = parseInt(e.target.getAttribute('data-player-id'), 10);
-          const cleanDeckName = e.target.getAttribute('data-deck-name');
-          const deckData = decklistsMap[playerId];
+        const decklistsMap = {};
+        decklistsData.forEach(deck => {
+          decklistsMap[deck.PlayerId] = deck;
+        });
 
-          modalPlayer.innerText = deckData ? deckData.OwnerNameFirstLast : e.target.closest('tr').cells[1].innerText;
-          modalDeck.innerText = cleanDeckName;
+        const roundsMap = {};
+        const roundOrder = [];
 
-          if (!deckData || !deckData.Records) {
-            decklistContainer.innerHTML = `<p style="color: #e57373; margin-top: 15px;">Detailed decklist cards not found in export data.</p>`;
-          } else {
-            const mainboard = [];
-            const sideboard = [];
+        standingsData.forEach(item => {
+          const roundKey = item.Round || `Round ${item.RoundNumber}`;
+          if (!roundsMap[roundKey]) {
+            roundsMap[roundKey] = [];
+            roundOrder.push({ key: roundKey, phaseSort: item.PhaseSortOrder, roundNum: item.RoundNumber });
+          }
+          roundsMap[roundKey].push(item);
+        });
 
-            deckData.Records.forEach(record => {
-              const cardEntry = `${record.q}x ${record.n}`;
-              if (record.c === 99) {
-                sideboard.push(cardEntry);
-              } else {
-                mainboard.push(cardEntry);
-              }
-            });
+        roundOrder.sort((a, b) => {
+          if (a.phaseSort !== b.phaseSort) return a.phaseSort - b.phaseSort;
+          return a.roundNum - b.roundNum;
+        });
 
-            decklistContainer.innerHTML = `
-              <div class="decklist-section">
-                <h4>Mainboard</h4>
-                <ul>${mainboard.map(card => `<li>${card}</li>`).join('')}</ul>
-              </div>
-              ${sideboard.length > 0 ? `
-                <div class="decklist-section">
-                  <h4>Sideboard</h4>
-                  <ul>${sideboard.map(card => `<li>${card}</li>`).join('')}</ul>
-                </div>
-              ` : ''}
-            `;
+        const uniqueRounds = roundOrder.map(r => r.key);
+        let activeRound = uniqueRounds[uniqueRounds.length - 1];
+
+        function renderTable(roundKey) {
+          const standings = roundsMap[roundKey] || [];
+          standings.sort((a, b) => a.Rank - b.Rank);
+
+          if (standings.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="9" class="loading-state">No data available for this round.</td></tr>`;
+            return;
           }
 
-          modal.classList.add('open');
-        });
-      });
+          tbody.innerHTML = standings.map(row => {
+            const playerObj = row.Team && row.Team.Players && row.Team.Players[0] ? row.Team.Players[0] : null;
+            const playerName = playerObj ? playerObj.DisplayName : 'Unknown';
+            const playerId = playerObj ? playerObj.ID : null;
+              
+            const deckObj = row.Decklists && row.Decklists[0] ? row.Decklists[0] : null;
+            const deckName = deckObj ? deckObj.DecklistName : '-';
+
+            const deckHtml = deckName !== '-' 
+              ? `<span class="deck-link" data-player-id="${playerId}" data-deck-name="${deckName}">${deckName}</span>` 
+              : '-';
+
+            return `
+              <tr>
+                <td>${row.Rank}</td>
+                <td>${playerName}</td>
+                <td>${deckHtml}</td>
+                <td>${row.MatchRecord}</td>
+                <td>${row.GameRecord}</td>
+                <td class="points-cell">${row.Points}</td>
+                <td>${(row.OpponentMatchWinPercentage * 100).toFixed(2)}%</td>
+                <td>${(row.TeamGameWinPercentage * 100).toFixed(2)}%</td>
+                <td>${(row.OpponentGameWinPercentage * 100).toFixed(2)}%</td>
+              </tr>
+            `;
+          }).join('');
+
+          tbody.querySelectorAll('.deck-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+              const playerId = parseInt(e.target.getAttribute('data-player-id'), 10);
+              const cleanDeckName = e.target.getAttribute('data-deck-name');
+              const deckData = decklistsMap[playerId];
+
+              modalPlayer.innerText = deckData ? deckData.OwnerNameFirstLast : e.target.closest('tr').cells[1].innerText;
+              modalDeck.innerText = cleanDeckName;
+
+              if (!deckData || !deckData.Records) {
+                decklistContainer.innerHTML = `<p style="color: #e57373; margin-top: 15px;">Detailed decklist cards not found in export data.</p>`;
+              } else {
+                const mainboard = [];
+                const sideboard = [];
+
+                deckData.Records.forEach(record => {
+                  const cardEntry = `${record.q}x ${record.n}`;
+                  if (record.c === 99) {
+                    sideboard.push(cardEntry);
+                  } else {
+                    mainboard.push(cardEntry);
+                  }
+                });
+
+                decklistContainer.innerHTML = `
+                  <div class="decklist-section">
+                    <h4>Mainboard</h4>
+                    <ul>${mainboard.map(card => `<li>${card}</li>`).join('')}</ul>
+                  </div>
+                  ${sideboard.length > 0 ? `
+                    <div class="decklist-section">
+                      <h4>Sideboard</h4>
+                      <ul>${sideboard.map(card => `<li>${card}</li>`).join('')}</ul>
+                    </div>
+                  ` : ''}
+                `;
+              }
+
+              modal.classList.add('open');
+            });
+          });
+        }
+
+        function renderRoundsNav() {
+          roundButtonsContainer.innerHTML = uniqueRounds.map(roundKey => {
+            const isActive = roundKey === activeRound;
+            return `<button class="round-btn ${isActive ? 'active' : ''}" data-round="${roundKey}">${roundKey}</button>`;
+          }).join('');
+
+          roundButtonsContainer.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              activeRound = e.target.getAttribute('data-round');
+              renderRoundsNav();
+              renderTable(activeRound);
+            });
+          });
+        }
+
+        renderRoundsNav();
+        renderTable(activeRound);
+
+      } catch (err) {
+        console.error('Error loading tournament files:', err);
+        tbody.innerHTML = `<tr><td colspan="9" class="error-state">Failed to load tournament files. Check file paths in tournaments.json.</td></tr>`;
+      }
     }
 
-    function renderButtons() {
-      buttonsContainer.innerHTML = uniqueRounds.map(roundKey => {
-        const isActive = roundKey === activeRound;
-        return `<button class="round-btn ${isActive ? 'active' : ''}" data-round="${roundKey}">${roundKey}</button>`;
+    function renderTournamentNav() {
+      // Keep the "Tournament:" label, then append buttons
+      const labelHtml = `<span class="nav-label">Tournament:</span>`;
+      const buttonsHtml = tournaments.map(t => {
+        const isActive = t === activeTournament;
+        const label = formatMonthYear(t.date);
+        return `<button class="tournament-btn ${isActive ? 'active' : ''}" data-date="${t.date}">${label}</button>`;
       }).join('');
 
-      buttonsContainer.querySelectorAll('button').forEach(btn => {
+      tournamentNav.innerHTML = labelHtml + buttonsHtml;
+
+      tournamentNav.querySelectorAll('.tournament-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          activeRound = e.target.getAttribute('data-round');
-          renderButtons();
-          renderTable(activeRound);
+          const selectedDate = e.target.getAttribute('data-date');
+          activeTournament = tournaments.find(t => t.date === selectedDate);
+          renderTournamentNav();
+          loadTournament(activeTournament);
         });
       });
     }
 
-    renderButtons();
-    renderTable(activeRound);
+    renderTournamentNav();
+    loadTournament(activeTournament);
 
   } catch (error) {
-    console.error('Error loading tournament data:', error);
-    document.getElementById('standings-tbody').innerHTML = `<tr><td colspan="9" class="error-state">Failed to load tournament data. Ensure both JSON files are in the root directory and running via a local server.</td></tr>`;
+    console.error('Error loading manifest:', error);
+    document.getElementById('standings-tbody').innerHTML = `<tr><td colspan="9" class="error-state">Failed to load tournaments.json manifest file.</td></tr>`;
   }
 }
 
-loadTournamentData();
+initApp();
 </script>
 
 </body>
