@@ -184,7 +184,7 @@
             const closeDeckModal = () => {
               modal.classList.remove('flex', 'open');
               modal.classList.add('hidden');
-              cardTooltip.classList.add('hidden'); // Also hide the preview tooltip
+              cardTooltip.classList.add('hidden');
               clearTimeout(hoverTimeout);
             };
 
@@ -318,12 +318,12 @@
                           // Desktop Hover
                           cardLink.addEventListener('mouseenter', (e) => {
                             if (window.innerWidth >= 768) {
-                              clearTimeout(hoverTimeout); // Clear previous timeout to ensure debouncing
+                              clearTimeout(hoverTimeout);
                               const cardName = e.target.getAttribute('data-card-name');
                               
-                              // Add a 400ms delay before fetching the image
+                              // Exact query with debounce delay
                               hoverTimeout = setTimeout(() => {
-                                cardTooltip.src = `https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(cardName)}&format=image&version=normal`;
+                                cardTooltip.src = `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(cardName)}&format=image&version=normal`;
                                 cardTooltip.classList.remove('hidden');
                                 cardTooltip.style.transform = 'none';
                               }, 400); 
@@ -346,7 +346,7 @@
 
                           cardLink.addEventListener('mouseleave', () => {
                             if (window.innerWidth >= 768) {
-                              clearTimeout(hoverTimeout); // Cancel fetch if user moves off the card quickly
+                              clearTimeout(hoverTimeout);
                               cardTooltip.classList.add('hidden');
                             }
                           });
@@ -356,7 +356,7 @@
                             if (window.innerWidth < 768) {
                               e.stopPropagation();
                               const cardName = e.target.getAttribute('data-card-name');
-                              cardTooltip.src = `https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(cardName)}&format=image&version=normal`;
+                              cardTooltip.src = `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(cardName)}&format=image&version=normal`;
                               
                               // Center the tooltip overlay perfectly
                               cardTooltip.style.left = '50%';
