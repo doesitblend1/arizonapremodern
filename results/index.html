@@ -217,8 +217,9 @@
                   return a.roundNum - b.roundNum;
                 });
 
-                const uniqueRounds = roundOrder.map(r => r.key);
-                let activeRound = uniqueRounds[uniqueRounds.length - 1];
+                // Reverse the order so the latest/finals rounds appear first on the left
+                const uniqueRounds = roundOrder.map(r => r.key).reverse();
+                let activeRound = uniqueRounds[0]; // Defaults to the first item (now the latest round/finals)
 
                 function renderTable(roundKey) {
                   const standings = roundsMap[roundKey] || [];
