@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Tournament Standings - Arizona Premodern Magic the Gathering</title>
+    <!-- SEO Optimization Meta Tags -->
+    <title>Tournament Standings - Phoenix, Arizona Premodern Magic the Gathering</title>
     <meta name="description" content="View past tournament standings and decklists for the Arizona Premodern Magic the Gathering community.">
     <meta name="keywords" content="Premodern Magic, Standings, Decklists, Phoenix AZ, MTG, Premodern MTG">
     <meta name="author" content="Phoenix Premodern Community">
     
+    <!-- Open Graph for Social Sharing -->
     <meta property="og:title" content="Tournament Standings - Arizona Premodern MTG">
     <meta property="og:description" content="Browse tournament standings and player decklists for Phoenix Premodern Magic the Gathering.">
     <meta property="og:type" content="website">
@@ -18,6 +20,7 @@
         /* Custom scrollbar for an earthy, premodern theme feel */
         ::-webkit-scrollbar {
             width: 8px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: #2a231d; 
@@ -31,44 +34,59 @@
         }
         body {
             background-color: #1a1612;
-            /* Subtle texture to mimic old card stock */
             background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
         }
     </style>
 </head>
 <body class="text-[#e0d6c8] font-serif antialiased leading-relaxed min-h-screen flex flex-col justify-between">
 
+    <!-- Header / Hero Section -->
     <header class="bg-[#2a231d] border-b-8 border-[#8c734a] relative overflow-hidden flex items-center justify-center">
+        
+        <!-- Image Layer (References parent directory assets) -->
         <div class="w-full flex justify-between items-center md:absolute md:inset-0 z-0">
             <img src="../torleft.gif" alt="Header Art Left" class="w-1/2 md:w-auto h-auto md:h-full object-contain object-left pointer-events-none opacity-40 md:opacity-100">
             <img src="../orbright.gif" alt="Header Art Right" class="w-1/2 md:w-auto h-auto md:h-full object-contain object-right pointer-events-none opacity-40 md:opacity-100">
         </div>
         
+        <!-- Text Layer -->
         <div class="absolute md:relative inset-0 md:inset-auto flex flex-col items-center justify-center px-2 z-10 w-full md:py-16">
             <h1 class="text-[clamp(1.75rem,7vw,4rem)] md:text-7xl lg:text-8xl font-bold text-[#dcb773] tracking-wider mb-1 md:mb-4 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] uppercase leading-tight text-center">
-                Tournament Standings
+                Arizona Premodern
             </h1>
             <p class="text-[clamp(0.65rem,2.8vw,1.25rem)] md:text-2xl text-[#bdae93] italic drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-center">
-                Arizona Premodern Event History & Decklists
+                Tournament Standings & Decklist Archive
             </p>
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12 w-full flex-grow">
 
+        <!-- Back to Home Link -->
         <div class="mb-6">
             <a href="index.html" class="inline-flex items-center gap-2 text-[#dcb773] hover:text-[#f2ce8a] text-sm md:text-base font-bold transition-colors">
                 &#10094; Back to Home
             </a>
         </div>
 
-        <div id="tournament-nav" class="flex gap-2 mb-6 flex-wrap items-center bg-[#2a231d] p-4 rounded-sm border border-[#5c4e3d] shadow-md">
-            <span class="text-xs md:text-sm text-[#bdae93] font-bold uppercase tracking-wider mr-2">Tournament:</span>
+        <!-- Tournament Month/Year Navigation Bar (Horizontally scrollable for future additions) -->
+        <div class="mb-4 bg-[#2a231d] p-4 rounded-sm border border-[#5c4e3d] shadow-md">
+            <div class="text-xs text-[#bdae93] font-bold uppercase tracking-wider mb-2">Tournament:</div>
+            <div id="tournament-nav" class="flex gap-2 overflow-x-auto pb-2 items-center scrollbar-thin">
+                <!-- Dynamically populated tournament buttons -->
             </div>
+        </div>
 
-        <div id="round-buttons" class="flex gap-2 mb-6 flex-wrap">
+        <!-- Round Selector Buttons (Horizontally scrollable) -->
+        <div class="mb-6 bg-[#2a231d]/60 p-3 rounded-sm border border-[#5c4e3d]/50">
+            <div class="text-xs text-[#bdae93] font-bold uppercase tracking-wider mb-2">Select Round:</div>
+            <div id="round-buttons" class="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+                <!-- Dynamically populated round buttons -->
             </div>
+        </div>
 
+        <!-- Standings Table Container -->
         <div class="bg-[#2a231d] rounded-sm border-2 border-[#8c734a] shadow-xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full border-collapse text-left text-sm md:text-base whitespace-nowrap">
@@ -96,6 +114,7 @@
 
     </main>
 
+    <!-- Footer -->
     <footer class="bg-[#1a1612] py-6 md:py-8 text-center border-t-4 border-[#8c734a] mt-8 md:mt-12 relative overflow-hidden px-4">
         <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100\' height=\'100\' filter=\'url(%23noise)\' opacity=\'0.08\'/%3E%3C/svg%3E');"></div>
         <div class="relative z-10">
@@ -105,6 +124,7 @@
         </div>
     </footer>
 
+    <!-- Deck Details Modal Popup -->
     <div id="deck-modal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-[#2a231d] border-2 border-[#8c734a] rounded-sm p-6 w-full max-w-lg max-h-[85vh] overflow-y-auto shadow-2xl relative text-[#e0d6c8]">
             <button id="modal-close" class="absolute top-4 right-4 text-[#dcb773] hover:text-white text-2xl font-bold cursor-pointer">&times;</button>
@@ -116,10 +136,12 @@
             </div>
             
             <div id="decklist-container" class="space-y-4 text-sm">
-                </div>
+                <!-- Cards injected here -->
+            </div>
         </div>
     </div>
 
+    <!-- Standings & Modal Script -->
     <script>
         async function initApp() {
           try {
@@ -127,8 +149,6 @@
             if (!manifestRes.ok) throw new Error('Failed to load tournaments.json manifest');
             
             let tournaments = await manifestRes.json();
-            
-            // Sort tournaments descending by date (most recent first)
             tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             if (tournaments.length === 0) {
@@ -136,7 +156,7 @@
               return;
             }
 
-            let activeTournament = tournaments[0]; // Default to most recent
+            let activeTournament = tournaments[0];
 
             const tournamentNav = document.getElementById('tournament-nav');
             const roundButtonsContainer = document.getElementById('round-buttons');
@@ -286,7 +306,7 @@
                     const btnClass = isActive 
                       ? 'bg-[#dcb773] text-[#1a1612] border-[#dcb773] font-bold shadow-md' 
                       : 'bg-[#3b3228] text-[#dcb773] border-[#5c4e3d] hover:bg-[#8c734a] hover:text-[#1a1612]';
-                    return `<button class="round-btn px-4 py-2 rounded-sm border text-sm transition-colors cursor-pointer ${btnClass}" data-round="${roundKey}">${roundKey}</button>`;
+                    return `<button class="round-btn px-4 py-2 rounded-sm border text-sm transition-colors cursor-pointer whitespace-nowrap shrink-0 ${btnClass}" data-round="${roundKey}">${roundKey}</button>`;
                   }).join('');
 
                   roundButtonsContainer.querySelectorAll('button').forEach(btn => {
@@ -308,17 +328,14 @@
             }
 
             function renderTournamentNav() {
-              const labelHtml = `<span class="text-xs md:text-sm text-[#bdae93] font-bold uppercase tracking-wider mr-2">Tournament:</span>`;
-              const buttonsHtml = tournaments.map(t => {
+              tournamentNav.innerHTML = tournaments.map(t => {
                 const isActive = t === activeTournament;
                 const label = formatMonthYear(t.date);
                 const btnClass = isActive 
                   ? 'bg-[#dcb773] text-[#1a1612] border-[#dcb773] font-bold shadow-md' 
                   : 'bg-[#3b3228] text-[#dcb773] border-[#5c4e3d] hover:bg-[#8c734a] hover:text-[#1a1612]';
-                return `<button class="tournament-btn px-4 py-2 rounded-sm border text-sm transition-colors cursor-pointer ${btnClass}" data-date="${t.date}">${label}</button>`;
+                return `<button class="tournament-btn px-4 py-2 rounded-sm border text-sm transition-colors cursor-pointer whitespace-nowrap shrink-0 ${btnClass}" data-date="${t.date}">${label}</button>`;
               }).join('');
-
-              tournamentNav.innerHTML = labelHtml + buttonsHtml;
 
               tournamentNav.querySelectorAll('.tournament-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
