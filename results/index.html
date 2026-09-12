@@ -1,441 +1,350 @@
+Here is your complete, standalone tournament standings webpage integrated directly into your existing site's design style, color scheme (#1a1612, #2a231d, #8c734a, #dcb773), and layout structure, complete with your exact header and footer styling.
+
+Save this file as your standings page (for example, standings.html) in your root folder right alongside your tournaments.json manifest and data files:
+
+HTML
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tournament Standings - Premodern</title>
-  <style>
-    body {
-      background-color: #121212;
-      color: #d4b58e;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      margin: 0;
-      padding: 24px;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    h1 {
-      color: #e6c8a0;
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-    .nav-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-      align-items: center;
-      border-bottom: 1px solid #4a3b2c;
-      padding-bottom: 15px;
-    }
-    .nav-label {
-      font-size: 13px;
-      color: #a39078;
-      margin-right: 5px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .tournament-btn, .round-btn {
-      background: rgba(44, 34, 30, 0.6);
-      color: #d4b58e;
-      border: 1px solid #4a3b2c;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-    .tournament-btn.active, .round-btn.active {
-      background: #d4b58e;
-      color: #2c221e;
-      border-color: #d4b58e;
-      font-weight: bold;
-    }
-    #round-buttons {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    .table-wrapper {
-      overflow-x: auto;
-      background-color: rgba(0, 0, 0, 0.3);
-      border: 1px solid #4a3b2c;
-      border-radius: 6px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 14px;
-      white-space: nowrap;
-    }
-    th {
-      background-color: rgba(74, 59, 44, 0.3);
-      color: #e6c8a0;
-      padding: 12px 16px;
-      border-bottom: 1px solid #4a3b2c;
-      font-weight: 600;
-    }
-    td {
-      padding: 12px 16px;
-      border-bottom: 1px solid rgba(74, 59, 44, 0.2);
-    }
-    tr:hover td {
-      background-color: rgba(212, 181, 142, 0.03);
-    }
-    .points-cell {
-      font-weight: bold;
-      color: #e6c8a0;
-    }
-    .deck-link {
-      color: #e6c8a0;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-    .deck-link:hover {
-      color: #fff;
-    }
-    /* Modal Styling */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(2px);
-      align-items: center;
-      justify-content: center;
-    }
-    .modal.open {
-      display: flex;
-    }
-    .modal-content {
-      background-color: #1a1614;
-      border: 1px solid #4a3b2c;
-      border-radius: 8px;
-      padding: 24px;
-      width: 100%;
-      max-width: 500px;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      position: relative;
-    }
-    .close-modal {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      color: #d4b58e;
-      font-size: 20px;
-      cursor: pointer;
-      background: none;
-      border: none;
-    }
-    .close-modal:hover {
-      color: #fff;
-    }
-    .modal-content h3 {
-      margin-top: 0;
-      color: #e6c8a0;
-      font-size: 18px;
-      border-bottom: 1px solid #4a3b2c;
-      padding-bottom: 10px;
-    }
-    .modal-info {
-      margin: 6px 0;
-      font-size: 14px;
-    }
-    .decklist-section {
-      margin-top: 15px;
-      font-size: 13px;
-    }
-    .decklist-section h4 {
-      color: #e6c8a0;
-      margin: 10px 0 5px 0;
-      border-bottom: 1px dashed #4a3b2c;
-      padding-bottom: 4px;
-    }
-    .decklist-section ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-    .loading-state, .error-state {
-      padding: 40px;
-      text-align: center;
-      color: #e6c8a0;
-    }
-    .error-state {
-      color: #e57373;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Tournament Standings - Arizona Premodern Magic the Gathering</title>
+    <meta name="description" content="View past tournament standings and decklists for the Arizona Premodern Magic the Gathering community.">
+    <meta name="keywords" content="Premodern Magic, Standings, Decklists, Phoenix AZ, MTG, Premodern MTG">
+    <meta name="author" content="Phoenix Premodern Community">
+    
+    <meta property="og:title" content="Tournament Standings - Arizona Premodern MTG">
+    <meta property="og:description" content="Browse tournament standings and player decklists for Phoenix Premodern Magic the Gathering.">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for an earthy, premodern theme feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2a231d; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #5c4e3d; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dcb773; 
+        }
+        body {
+            background-color: #1a1612;
+            /* Subtle texture to mimic old card stock */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+    </style>
 </head>
-<body>
+<body class="text-[#e0d6c8] font-serif antialiased leading-relaxed min-h-screen flex flex-col justify-between">
 
-<div class="container">
-  <h1>Tournament Standings</h1>
-  
-  <!-- Tournament Month/Year Navigation Bar -->
-  <div id="tournament-nav" class="nav-bar">
-    <span class="nav-label">Tournament:</span>
-  </div>
+    <header class="bg-[#2a231d] border-b-8 border-[#8c734a] relative overflow-hidden flex items-center justify-center">
+        <div class="w-full flex justify-between items-center md:absolute md:inset-0 z-0">
+            <img src="torleft.gif" alt="Header Art Left" class="w-1/2 md:w-auto h-auto md:h-full object-contain object-left pointer-events-none opacity-40 md:opacity-100">
+            <img src="orbright.gif" alt="Header Art Right" class="w-1/2 md:w-auto h-auto md:h-full object-contain object-right pointer-events-none opacity-40 md:opacity-100">
+        </div>
+        
+        <div class="absolute md:relative inset-0 md:inset-auto flex flex-col items-center justify-center px-2 z-10 w-full md:py-16">
+            <h1 class="text-[clamp(1.75rem,7vw,4rem)] md:text-7xl lg:text-8xl font-bold text-[#dcb773] tracking-wider mb-1 md:mb-4 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] uppercase leading-tight text-center">
+                Tournament Standings
+            </h1>
+            <p class="text-[clamp(0.65rem,2.8vw,1.25rem)] md:text-2xl text-[#bdae93] italic drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-center">
+                Arizona Premodern Event History & Decklists
+            </p>
+        </div>
+    </header>
 
-  <!-- Round Selector Buttons -->
-  <div id="round-buttons"></div>
+    <main class="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12 w-full flex-grow">
 
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Player</th>
-          <th>Decklist</th>
-          <th>Match Record</th>
-          <th>Game Record</th>
-          <th>Points</th>
-          <th>OMW%</th>
-          <th>TGW%</th>
-          <th>OGW%</th>
-        </tr>
-      </thead>
-      <tbody id="standings-tbody">
-        <tr>
-          <td colspan="9" class="loading-state">Loading tournaments...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+        <div class="mb-6">
+            <a href="index.html" class="inline-flex items-center gap-2 text-[#dcb773] hover:text-[#f2ce8a] text-sm md:text-base font-bold transition-colors">
+                &#10094; Back to Home
+            </a>
+        </div>
 
-<!-- Deck Details Modal -->
-<div id="deck-modal" class="modal">
-  <div class="modal-content">
-    <button class="close-modal" id="modal-close">&times;</button>
-    <h3 id="modal-deck-title">Deck Details</h3>
-    <div class="modal-info"><strong>Player:</strong> <span id="modal-player-name">--</span></div>
-    <div class="modal-info"><strong>Archetype:</strong> <span id="modal-deck-name">--</span></div>
-    <div id="decklist-container"></div>
-  </div>
-</div>
+        <div id="tournament-nav" class="flex gap-2 mb-6 flex-wrap items-center bg-[#2a231d] p-4 rounded-sm border border-[#5c4e3d] shadow-md">
+            <span class="text-xs md:text-sm text-[#bdae93] font-bold uppercase tracking-wider mr-2">Tournament:</span>
+            </div>
 
-<script>
-async function initApp() {
-  try {
-    const manifestRes = await fetch('tournaments.json');
-    if (!manifestRes.ok) throw new Error('Failed to load tournaments.json manifest');
-    
-    let tournaments = await manifestRes.json();
-    
-    // Sort tournaments descending by date (most recent first)
-    tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
+        <div id="round-buttons" class="flex gap-2 mb-6 flex-wrap">
+            </div>
 
-    if (tournaments.length === 0) {
-      document.getElementById('standings-tbody').innerHTML = `<tr><td colspan="9" class="error-state">No tournaments found in manifest.</td></tr>`;
-      return;
-    }
+        <div class="bg-[#2a231d] rounded-sm border-2 border-[#8c734a] shadow-xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse text-left text-sm md:text-base whitespace-nowrap">
+                    <thead>
+                        <tr class="bg-[#3b3228] border-b border-[#5c4e3d] text-[#e6c8a0]">
+                            <th class="p-3 md:p-4 font-bold">Rank</th>
+                            <th class="p-3 md:p-4 font-bold">Player</th>
+                            <th class="p-3 md:p-4 font-bold">Decklist</th>
+                            <th class="p-3 md:p-4 font-bold">Match Record</th>
+                            <th class="p-3 md:p-4 font-bold">Game Record</th>
+                            <th class="p-3 md:p-4 font-bold">Points</th>
+                            <th class="p-3 md:p-4 font-bold">OMW%</th>
+                            <th class="p-3 md:p-4 font-bold">TGW%</th>
+                            <th class="p-3 md:p-4 font-bold">OGW%</th>
+                        </tr>
+                    </thead>
+                    <tbody id="standings-tbody" class="divide-y divide-[#5c4e3d]/40">
+                        <tr>
+                            <td colspan="9" class="p-8 text-center text-[#e6c8a0]">Loading tournaments...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    let activeTournament = tournaments[0]; // Default to most recent
+    </main>
 
-    const tournamentNav = document.getElementById('tournament-nav');
-    const roundButtonsContainer = document.getElementById('round-buttons');
-    const tbody = document.getElementById('standings-tbody');
-    
-    const modal = document.getElementById('deck-modal');
-    const modalClose = document.getElementById('modal-close');
-    const modalPlayer = document.getElementById('modal-player-name');
-    const modalDeck = document.getElementById('modal-deck-name');
-    const decklistContainer = document.getElementById('decklist-container');
+    <footer class="bg-[#1a1612] py-6 md:py-8 text-center border-t-4 border-[#8c734a] mt-8 md:mt-12 relative overflow-hidden px-4">
+        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100\' height=\'100\' filter=\'url(%23noise)\' opacity=\'0.08\'/%3E%3C/svg%3E');"></div>
+        <div class="relative z-10">
+            <p class="text-[#bdae93] text-xs md:text-sm tracking-wide font-bold">
+                © 2026 Arizona Premodern. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
 
-    modalClose.addEventListener('click', () => modal.classList.remove('open'));
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('open');
-    });
+    <div id="deck-modal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-[#2a231d] border-2 border-[#8c734a] rounded-sm p-6 w-full max-w-lg max-h-[85vh] overflow-y-auto shadow-2xl relative text-[#e0d6c8]">
+            <button id="modal-close" class="absolute top-4 right-4 text-[#dcb773] hover:text-white text-2xl font-bold cursor-pointer">&times;</button>
+            <h3 class="text-xl font-bold text-[#dcb773] mb-4 border-b border-[#5c4e3d] pb-2 uppercase tracking-wide">Deck Details</h3>
+            
+            <div class="space-y-2 mb-4 text-sm md:text-base">
+                <p><strong>Player:</strong> <span id="modal-player-name" class="text-[#e6c8a0]">--</span></p>
+                <p><strong>Archetype:</strong> <span id="modal-deck-name" class="text-[#e6c8a0]">--</span></p>
+            </div>
+            
+            <div id="decklist-container" class="space-y-4 text-sm">
+                </div>
+        </div>
+    </div>
 
-    function formatMonthYear(dateString) {
-      const d = new Date(dateString);
-      return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    }
+    <script>
+        async function initApp() {
+          try {
+            const manifestRes = await fetch('tournaments.json');
+            if (!manifestRes.ok) throw new Error('Failed to load tournaments.json manifest');
+            
+            let tournaments = await manifestRes.json();
+            
+            // Sort tournaments descending by date (most recent first)
+            tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    async function loadTournament(tournament) {
-      tbody.innerHTML = `<tr><td colspan="9" class="loading-state">Loading tournament data...</td></tr>`;
+            if (tournaments.length === 0) {
+              document.getElementById('standings-tbody').innerHTML = `<tr><td colspan="9" class="p-8 text-center text-[#e57373]">No tournaments found in manifest.</td></tr>`;
+              return;
+            }
 
-      try {
-        const [standingsRes, decklistsRes] = await Promise.all([
-          fetch(tournament.standingsFile),
-          fetch(tournament.decklistsFile)
-        ]);
+            let activeTournament = tournaments[0]; // Default to most recent
 
-        if (!standingsRes.ok || !decklistsRes.ok) throw new Error('Failed to load tournament files');
+            const tournamentNav = document.getElementById('tournament-nav');
+            const roundButtonsContainer = document.getElementById('round-buttons');
+            const tbody = document.getElementById('standings-tbody');
+            
+            const modal = document.getElementById('deck-modal');
+            const modalClose = document.getElementById('modal-close');
+            const modalPlayer = document.getElementById('modal-player-name');
+            const modalDeck = document.getElementById('modal-deck-name');
+            const decklistContainer = document.getElementById('decklist-container');
 
-        const standingsData = await standingsRes.json();
-        const decklistsData = await decklistsRes.json();
+            modalClose.addEventListener('click', () => modal.classList.remove('flex', 'open') || modal.classList.add('hidden'));
+            modal.addEventListener('click', (e) => {
+              if (e.target === modal) {
+                modal.classList.remove('flex', 'open');
+                modal.classList.add('hidden');
+              }
+            });
 
-        const decklistsMap = {};
-        decklistsData.forEach(deck => {
-          decklistsMap[deck.PlayerId] = deck;
-        });
+            function formatMonthYear(dateString) {
+              const d = new Date(dateString);
+              return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            }
 
-        const roundsMap = {};
-        const roundOrder = [];
+            async function loadTournament(tournament) {
+              tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-[#e6c8a0]">Loading tournament data...</td></tr>`;
 
-        standingsData.forEach(item => {
-          const roundKey = item.Round || `Round ${item.RoundNumber}`;
-          if (!roundsMap[roundKey]) {
-            roundsMap[roundKey] = [];
-            roundOrder.push({ key: roundKey, phaseSort: item.PhaseSortOrder, roundNum: item.RoundNumber });
-          }
-          roundsMap[roundKey].push(item);
-        });
+              try {
+                const [standingsRes, decklistsRes] = await Promise.all([
+                  fetch(tournament.standingsFile),
+                  fetch(tournament.decklistsFile)
+                ]);
 
-        roundOrder.sort((a, b) => {
-          if (a.phaseSort !== b.phaseSort) return a.phaseSort - b.phaseSort;
-          return a.roundNum - b.roundNum;
-        });
+                if (!standingsRes.ok || !decklistsRes.ok) throw new Error('Failed to load tournament files');
 
-        const uniqueRounds = roundOrder.map(r => r.key);
-        let activeRound = uniqueRounds[uniqueRounds.length - 1];
+                const standingsData = await standingsRes.json();
+                const decklistsData = await decklistsRes.json();
 
-        function renderTable(roundKey) {
-          const standings = roundsMap[roundKey] || [];
-          standings.sort((a, b) => a.Rank - b.Rank);
-
-          if (standings.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="9" class="loading-state">No data available for this round.</td></tr>`;
-            return;
-          }
-
-          tbody.innerHTML = standings.map(row => {
-            const playerObj = row.Team && row.Team.Players && row.Team.Players[0] ? row.Team.Players[0] : null;
-            const playerName = playerObj ? playerObj.DisplayName : 'Unknown';
-            const playerId = playerObj ? playerObj.ID : null;
-              
-            const deckObj = row.Decklists && row.Decklists[0] ? row.Decklists[0] : null;
-            const deckName = deckObj ? deckObj.DecklistName : '-';
-
-            const deckHtml = deckName !== '-' 
-              ? `<span class="deck-link" data-player-id="${playerId}" data-deck-name="${deckName}">${deckName}</span>` 
-              : '-';
-
-            return `
-              <tr>
-                <td>${row.Rank}</td>
-                <td>${playerName}</td>
-                <td>${deckHtml}</td>
-                <td>${row.MatchRecord}</td>
-                <td>${row.GameRecord}</td>
-                <td class="points-cell">${row.Points}</td>
-                <td>${(row.OpponentMatchWinPercentage * 100).toFixed(2)}%</td>
-                <td>${(row.TeamGameWinPercentage * 100).toFixed(2)}%</td>
-                <td>${(row.OpponentGameWinPercentage * 100).toFixed(2)}%</td>
-              </tr>
-            `;
-          }).join('');
-
-          tbody.querySelectorAll('.deck-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-              const playerId = parseInt(e.target.getAttribute('data-player-id'), 10);
-              const cleanDeckName = e.target.getAttribute('data-deck-name');
-              const deckData = decklistsMap[playerId];
-
-              modalPlayer.innerText = deckData ? deckData.OwnerNameFirstLast : e.target.closest('tr').cells[1].innerText;
-              modalDeck.innerText = cleanDeckName;
-
-              if (!deckData || !deckData.Records) {
-                decklistContainer.innerHTML = `<p style="color: #e57373; margin-top: 15px;">Detailed decklist cards not found in export data.</p>`;
-              } else {
-                const mainboard = [];
-                const sideboard = [];
-
-                deckData.Records.forEach(record => {
-                  const cardEntry = `${record.q}x ${record.n}`;
-                  if (record.c === 99) {
-                    sideboard.push(cardEntry);
-                  } else {
-                    mainboard.push(cardEntry);
-                  }
+                const decklistsMap = {};
+                decklistsData.forEach(deck => {
+                  decklistsMap[deck.PlayerId] = deck;
                 });
 
-                decklistContainer.innerHTML = `
-                  <div class="decklist-section">
-                    <h4>Mainboard</h4>
-                    <ul>${mainboard.map(card => `<li>${card}</li>`).join('')}</ul>
-                  </div>
-                  ${sideboard.length > 0 ? `
-                    <div class="decklist-section">
-                      <h4>Sideboard</h4>
-                      <ul>${sideboard.map(card => `<li>${card}</li>`).join('')}</ul>
-                    </div>
-                  ` : ''}
-                `;
+                const roundsMap = {};
+                const roundOrder = [];
+
+                standingsData.forEach(item => {
+                  const roundKey = item.Round || `Round ${item.RoundNumber}`;
+                  if (!roundsMap[roundKey]) {
+                    roundsMap[roundKey] = [];
+                    roundOrder.push({ key: roundKey, phaseSort: item.PhaseSortOrder, roundNum: item.RoundNumber });
+                  }
+                  roundsMap[roundKey].push(item);
+                });
+
+                roundOrder.sort((a, b) => {
+                  if (a.phaseSort !== b.phaseSort) return a.phaseSort - b.phaseSort;
+                  return a.roundNum - b.roundNum;
+                });
+
+                const uniqueRounds = roundOrder.map(r => r.key);
+                let activeRound = uniqueRounds[uniqueRounds.length - 1];
+
+                function renderTable(roundKey) {
+                  const standings = roundsMap[roundKey] || [];
+                  standings.sort((a, b) => a.Rank - b.Rank);
+
+                  if (standings.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-[#e6c8a0]">No data available for this round.</td></tr>`;
+                    return;
+                  }
+
+                  tbody.innerHTML = standings.map(row => {
+                    const playerObj = row.Team && row.Team.Players && row.Team.Players[0] ? row.Team.Players[0] : null;
+                    const playerName = playerObj ? playerObj.DisplayName : 'Unknown';
+                    const playerId = playerObj ? playerObj.ID : null;
+                      
+                    const deckObj = row.Decklists && row.Decklists[0] ? row.Decklists[0] : null;
+                    const deckName = deckObj ? deckObj.DecklistName : '-';
+
+                    const deckHtml = deckName !== '-' 
+                      ? `<span class="text-[#dcb773] hover:text-white underline cursor-pointer font-bold deck-link" data-player-id="${playerId}" data-deck-name="${deckName}">${deckName}</span>` 
+                      : '-';
+
+                    return `
+                      <tr class="hover:bg-[#3b3228]/50 transition-colors">
+                        <td class="p-3 md:p-4 text-[#e6c8a0] font-bold">${row.Rank}</td>
+                        <td class="p-3 md:p-4">${playerName}</td>
+                        <td class="p-3 md:p-4">${deckHtml}</td>
+                        <td class="p-3 md:p-4">${row.MatchRecord}</td>
+                        <td class="p-3 md:p-4">${row.GameRecord}</td>
+                        <td class="p-3 md:p-4 font-bold text-[#e6c8a0]">${row.Points}</td>
+                        <td class="p-3 md:p-4">${(row.OpponentMatchWinPercentage * 100).toFixed(2)}%</td>
+                        <td class="p-3 md:p-4">${(row.TeamGameWinPercentage * 100).toFixed(2)}%</td>
+                        <td class="p-3 md:p-4">${(row.OpponentGameWinPercentage * 100).toFixed(2)}%</td>
+                      </tr>
+                    `;
+                  }).join('');
+
+                  tbody.querySelectorAll('.deck-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                      const playerId = parseInt(e.target.getAttribute('data-player-id'), 10);
+                      const cleanDeckName = e.target.getAttribute('data-deck-name');
+                      const deckData = decklistsMap[playerId];
+
+                      modalPlayer.innerText = deckData ? deckData.OwnerNameFirstLast : e.target.closest('tr').cells[1].innerText;
+                      modalDeck.innerText = cleanDeckName;
+
+                      if (!deckData || !deckData.Records) {
+                        decklistContainer.innerHTML = `<p class="text-[#e57373]">Detailed decklist cards not found in export data.</p>`;
+                      } else {
+                        const mainboard = [];
+                        const sideboard = [];
+
+                        deckData.Records.forEach(record => {
+                          const cardEntry = `${record.q}x ${record.n}`;
+                          if (record.c === 99) {
+                            sideboard.push(cardEntry);
+                          } else {
+                            mainboard.push(cardEntry);
+                          }
+                        });
+
+                        decklistContainer.innerHTML = `
+                          <div class="border-t border-[#5c4e3d] pt-3">
+                            <h4 class="font-bold text-[#dcb773] uppercase tracking-wide mb-2 text-xs">Mainboard</h4>
+                            <ul class="list-disc list-inside space-y-1 text-[#bdae93]">${mainboard.map(card => `<li>${card}</li>`).join('')}</ul>
+                          </div>
+                          ${sideboard.length > 0 ? `
+                            <div class="border-t border-[#5c4e3d] pt-3 mt-3">
+                              <h4 class="font-bold text-[#dcb773] uppercase tracking-wide mb-2 text-xs">Sideboard</h4>
+                              <ul class="list-disc list-inside space-y-1 text-[#bdae93]">${sideboard.map(card => `<li>${card}</li>`).join('')}</ul>
+                            </div>
+                          ` : ''}
+                        `;
+                      }
+
+                      modal.classList.remove('hidden');
+                      modal.classList.add('flex', 'open');
+                    });
+                  });
+                }
+
+                function renderRoundsNav() {
+                  roundButtonsContainer.innerHTML = uniqueRounds.map(roundKey => {
+                    const isActive = roundKey === activeRound;
+                    const btnClass = isActive 
+                      ? 'bg-[#dcb773] text-[#1a1612] border-[#dcb773] font-bold shadow-md' 
+                      : 'bg-[#3b3228] text-[#dcb773] border-[#5c4e3d] hover:bg-[#8c734a] hover:text-[#1a1612]';
+                    return `<button class="round-btn px-4 py-2 rounded-sm border text-sm transition-colors cursor-pointer ${btnClass}" data-round="${roundKey}">${roundKey}</button>`;
+                  }).join('');
+
+                  roundButtonsContainer.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                      activeRound = e.target.getAttribute('data-round');
+                      renderRoundsNav();
+                      renderTable(activeRound);
+                    });
+                  });
+                }
+
+                renderRoundsNav();
+                renderTable(activeRound);
+
+              } catch (err) {
+                console.error('Error loading tournament files:', err);
+                tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-[#e57373]">Failed to load tournament files. Check file paths in tournaments.json.</td></tr>`;
               }
+            }
 
-              modal.classList.add('open');
-            });
-          });
+            function renderTournamentNav() {
+              const labelHtml = `<span class="text-xs md:text-sm text-[#bdae93] font-bold uppercase tracking-wider mr-2">Tournament:</span>`;
+              const buttonsHtml = tournaments.map(t => {
+                const isActive = t === activeTournament;
+                const label = formatMonthYear(t.date);
+                const btnClass = isActive 
+                  ? 'bg-[#dcb773] text-[#1a1612] border-[#dcb773] font-bold shadow-md' 
+                  : 'bg-[#3b3228] text-[#dcb773] border-[#5c4e3d] hover:bg-[#8c734a] hover:text-[#1a1612]';
+                return `<button class="tournament-btn px-4 py-2 rounded-sm border text-sm transition-colors cursor-pointer ${btnClass}" data-date="${t.date}">${label}</button>`;
+              }).join('');
+
+              tournamentNav.innerHTML = labelHtml + buttonsHtml;
+
+              tournamentNav.querySelectorAll('.tournament-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                  const selectedDate = e.target.getAttribute('data-date');
+                  activeTournament = tournaments.find(t => t.date === selectedDate);
+                  renderTournamentNav();
+                  loadTournament(activeTournament);
+                });
+              });
+            }
+
+            renderTournamentNav();
+            loadTournament(activeTournament);
+
+          } catch (error) {
+            console.error('Error loading manifest:', error);
+            document.getElementById('standings-tbody').innerHTML = `<tr><td colspan="9" class="p-8 text-center text-[#e57373]">Failed to load tournaments.json manifest file.</td></tr>`;
+          }
         }
 
-        function renderRoundsNav() {
-          roundButtonsContainer.innerHTML = uniqueRounds.map(roundKey => {
-            const isActive = roundKey === activeRound;
-            return `<button class="round-btn ${isActive ? 'active' : ''}" data-round="${roundKey}">${roundKey}</button>`;
-          }).join('');
-
-          roundButtonsContainer.querySelectorAll('button').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-              activeRound = e.target.getAttribute('data-round');
-              renderRoundsNav();
-              renderTable(activeRound);
-            });
-          });
-        }
-
-        renderRoundsNav();
-        renderTable(activeRound);
-
-      } catch (err) {
-        console.error('Error loading tournament files:', err);
-        tbody.innerHTML = `<tr><td colspan="9" class="error-state">Failed to load tournament files. Check file paths in tournaments.json.</td></tr>`;
-      }
-    }
-
-    function renderTournamentNav() {
-      // Keep the "Tournament:" label, then append buttons
-      const labelHtml = `<span class="nav-label">Tournament:</span>`;
-      const buttonsHtml = tournaments.map(t => {
-        const isActive = t === activeTournament;
-        const label = formatMonthYear(t.date);
-        return `<button class="tournament-btn ${isActive ? 'active' : ''}" data-date="${t.date}">${label}</button>`;
-      }).join('');
-
-      tournamentNav.innerHTML = labelHtml + buttonsHtml;
-
-      tournamentNav.querySelectorAll('.tournament-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const selectedDate = e.target.getAttribute('data-date');
-          activeTournament = tournaments.find(t => t.date === selectedDate);
-          renderTournamentNav();
-          loadTournament(activeTournament);
-        });
-      });
-    }
-
-    renderTournamentNav();
-    loadTournament(activeTournament);
-
-  } catch (error) {
-    console.error('Error loading manifest:', error);
-    document.getElementById('standings-tbody').innerHTML = `<tr><td colspan="9" class="error-state">Failed to load tournaments.json manifest file.</td></tr>`;
-  }
-}
-
-initApp();
-</script>
-
+        initApp();
+    </script>
 </body>
 </html>
