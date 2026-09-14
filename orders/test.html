@@ -1,0 +1,203 @@
+<style>
+  #card-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+  }
+  .card-preview-item {
+    text-align: center;
+    font-size: 0.85em;
+  }
+  .card-preview-item img {
+    width: 100%;
+    border-radius: 4.75% / 3.5%; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  }
+</style>
+
+<!-- Step 1: Data Entry -->
+<div id="step-1-form">
+  <h3>Step 1: Enter Order Details</h3>
+  <form id="proxy-order-form">
+    <input type="text" id="playerName" placeholder="Your Name" required />
+    <input type="email" id="playerEmail" placeholder="Your Email" required />
+    
+    <select id="paymentMethod" required>
+      <option value="Cash">Cash</option>
+      <option value="Venmo">Venmo</option>
+      <option value="Zelle">Zelle</option>
+    </select>
+
+    <textarea id="proxyList" placeholder="Paste your list (e.g., 4x Lightning Bolt)" required rows="6"></textarea>
+    
+    <button type="submit">Review Order</button> 
+  </form>
+</div>
+
+<!-- Step 2: The Review Screen (Hidden by default) -->
+<div id="step-2-review" style="display: none;">
+  <h3>Step 2: Review Your Order</h3>
+  <p><strong>Name:</strong> <span id="review-name"></span></p>
+  <p><strong>Payment Method:</strong> <span id="review-payment"></span></p>
+  
+  <div id="card-preview-grid"></div>
+
+  <div style="margin-top: 20px;">
+    <button id="btn-edit">Wait, let me edit</button>
+    <button id="btn-confirm">Confirm & Submit</button>
+  </div>
+</div>
+
+<!-- Step 3: Success Message (Hidden by default) -->
+<div id="step-3-success" style="display: none;">
+  <h3 id="status-message"></h3>
+</div>
+
+<script type="module">
+  import PocketBase from 'https://unpkg.com/pocketbase/dist/pocketbase.es.mjs';
+  const pb = new PocketBase('https://api.arizonapremodern.com');
+
+  const step1 = document.getElementById('step-1-form');
+  const step2 = document.getElementById('step-2-review');
+  const step3 = document.getElementById('step-3-success');
+  const form = document.getElementById('proxy-order-form');
+  const previewGrid = document.getElementById('card-preview-grid');
+
+  let orderData = {};
+  let cardDatabase = {};
+  let lowerCaseIndex = {};
+
+  // Fetch the local JSON database instantly when the page loads
+  async function loadDatabase() {
+    try {
+      const response = await fetch('/results/premodern-cards.json');
+      if (response.ok) {
+        cardDatabase = await response.json();
+        
+        // Build a lowercase index so players don't have to worry about capitalization
+        for (let key in cardDatabase) {
+          lowerCaseIndex[key.toLowerCase()] = key;
+        }
+      } else {
+        console.error("Could not locate /results/premodern-cards.json");
+      }
+    } catch (e) {
+      console.error("Failed to load card database:", e);
+    }
+  }
+  loadDatabase();
+
+  function parseMtgList(rawText) {
+    const lines = rawText.split('\n');
+    const parsedCards = [];
+    
+    lines.forEach(line => {
+      let cleanLine = line.trim();
+      if (!cleanLine) return; // Skip empty lines
+      
+      const match = cleanLine.match(/^(\d+)[xX]?\s+(.+)$/);
+      let qty = 1;
+      let name = cleanLine;
+
+      if (match) {
+        qty = parseInt(match[1], 10);
+        name = match[2].trim();
+      }
+
+      // Strip out set codes just in case they paste them
+      name = name.split(' (')[0].trim();
+      parsedCards.push({ qty, name });
+    });
+    return parsedCards;
+  }
+
+  // Action 1: User clicks "Review Order"
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); 
+
+    const rawList = document.getElementById('proxyList').value;
+    const cardList = parseMtgList(rawList);
+    const invalidCards = [];
+    const validCardsData = [];
+
+    // Validate every card against the database
+    for (const card of cardList) {
+      const searchName = card.name.toLowerCase();
+      const exactName = lowerCaseIndex[searchName];
+      
+      if (exactName) {
+        validCardsData.push({
+          qty: card.qty,
+          name: exactName,
+          imageUrl: cardDatabase[exactName].image
+        });
+      } else {
+        invalidCards.push(card.name);
+      }
+    }
+
+    // If any cards failed the check, halt and alert the player
+    if (invalidCards.length > 0) {
+      alert("The following card(s) are either not Premodern legal or were misspelled:\n\n- " + invalidCards.join("\n- ") + "\n\nPlease fix them before submitting.");
+      return; // Stop the script here so they stay on Step 1
+    }
+
+    // Save the data to memory
+    orderData = {
+      player_name: document.getElementById('playerName').value,
+      email: document.getElementById('playerEmail').value,
+      payment_method: document.getElementById('paymentMethod').value,
+      proxy_list: rawList,
+      status: "Pending"
+    };
+
+    document.getElementById('review-name').innerText = orderData.player_name;
+    document.getElementById('review-payment').innerText = orderData.payment_method;
+
+    // Switch views and clear the old grid
+    step1.style.display = 'none';
+    step2.style.display = 'block';
+    previewGrid.innerHTML = '';
+
+    // Render the grid using the URLs stored in the JSON
+    for (const card of validCardsData) {
+      const cardDiv = document.createElement('div');
+      cardDiv.className = 'card-preview-item';
+      cardDiv.innerHTML = `
+        <img src="${card.imageUrl}" alt="${card.name}" />
+        <div>${card.qty}x ${card.name}</div>
+      `;
+      previewGrid.appendChild(cardDiv);
+    }
+  });
+
+  // Action 2: User clicks "Wait, let me edit"
+  document.getElementById('btn-edit').addEventListener('click', function() {
+    step2.style.display = 'none';
+    step1.style.display = 'block';
+  });
+
+  // Action 3: User clicks "Confirm & Submit"
+  document.getElementById('btn-confirm').addEventListener('click', async function() {
+    const confirmBtn = document.getElementById('btn-confirm');
+    confirmBtn.innerText = "Submitting...";
+    confirmBtn.disabled = true;
+
+    const generatedOrderId = "AZP-" + Math.floor(1000 + Math.random() * 9000);
+    orderData.order_id = generatedOrderId;
+
+    try {
+      await pb.collection('orders').create(orderData);
+      
+      step2.style.display = 'none';
+      step3.style.display = 'block';
+      document.getElementById('status-message').innerText = `Success! Your Order ID is: ${generatedOrderId}`;
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong communicating with the server. Please try again.");
+      confirmBtn.innerText = "Confirm & Submit";
+      confirmBtn.disabled = false;
+    }
+  });
+</script>
