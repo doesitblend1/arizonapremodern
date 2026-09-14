@@ -92,14 +92,16 @@
                             <label class="input-label" for="playerEmail">Email Address</label>
                             <input type="email" id="playerEmail" class="input-field" placeholder="jace@ravnica.com" required />
                         </div>
-                    </div>
-                    
-                    <div>
-                        <label class="input-label" for="paymentMethod">Payment Method</label>
-                        <select id="paymentMethod" class="input-field" required>
-                            <option value="Venmo">Venmo</option>
-                            <option value="Zelle">Zelle</option>
-                        </select>
+                        <div>
+                            <label class="input-label" for="playerPhone">Phone Number</label>
+                            <input type="tel" id="playerPhone" class="input-field" placeholder="(555) 555-5555" required />
+                        </div>
+                        <div>
+                            <label class="input-label">Payment Method</label>
+                            <div class="input-field bg-[#2a231d] text-[#bdae93] cursor-not-allowed select-none">
+                                Zelle Only
+                            </div>
+                        </div>
                     </div>
 
                     <div>
@@ -120,9 +122,12 @@
                 </h2>
                 
                 <div class="bg-[#1a1612] p-4 border border-[#5c4e3d] rounded-sm mb-6 font-sans text-[#bdae93]">
-                    <p class="mb-2"><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Name:</strong> <span id="review-name" class="text-[#e0d6c8]"></span></p>
-                    <p class="mb-2"><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Payment Method:</strong> <span id="review-payment" class="text-[#e0d6c8]"></span></p>
-                    <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Total Cost:</strong> <span id="review-cost" class="text-green-400 font-bold"></span></p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Name:</strong> <span id="review-name" class="text-[#e0d6c8]"></span></p>
+                        <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Phone:</strong> <span id="review-phone" class="text-[#e0d6c8]"></span></p>
+                        <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Payment Method:</strong> <span class="text-[#e0d6c8]">Zelle</span></p>
+                        <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Total Cost:</strong> <span id="review-cost" class="text-green-400 font-bold"></span></p>
+                    </div>
                 </div>
                 
                 <h3 class="text-lg font-bold text-[#dcb773] mb-4 uppercase tracking-wide">Card Preview</h3>
@@ -148,16 +153,24 @@
                 <h2 class="text-2xl md:text-3xl font-bold text-green-400 mb-4 flex items-center gap-2 uppercase tracking-wide">
                     ✅ Order Submitted
                 </h2>
-                <p id="status-message" class="text-lg text-[#e0d6c8] mb-6 font-bold"></p>
+                <p class="text-lg text-[#e0d6c8] mb-6 font-bold font-sans">
+                    Your Order ID is: <span id="status-message" class="text-[#dcb773] text-2xl tracking-wider ml-2"></span>
+                </p>
                 
                 <div class="bg-[#3b3228] rounded-sm p-6 border-2 border-[#8c734a] shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
                     <h3 class="font-bold text-[#dcb773] mb-4 uppercase tracking-wide border-b border-[#5c4e3d] pb-2">Payment Instructions</h3>
+                    
                     <p class="text-xl mb-4">Your total is: <strong id="success-cost" class="text-green-400 font-bold"></strong></p>
-                    <p class="text-[#e0d6c8] mb-4">Please send your payment using the method you selected. <strong class="text-[#dcb773]">You must include your Order ID in the payment memo!</strong></p>
+                    
+                    <div class="bg-red-900/40 border border-red-500/50 p-4 rounded-sm mb-6">
+                        <p class="text-[#e0d6c8] font-bold">
+                            ⚠️ CRITICAL: You <span class="underline">MUST</span> include your Order ID (<span id="memo-order-id" class="text-[#dcb773]"></span>) in the Zelle memo line!
+                        </p>
+                        <p class="text-sm text-[#bdae93] mt-1">If you do not include this ID, we cannot match your payment to your cards, and your order will not be printed.</p>
+                    </div>
                     
                     <ul class="space-y-3 font-sans text-[#bdae93] bg-[#1a1612] p-4 border border-[#5c4e3d] mb-4">
-                        <li><strong class="text-[#dcb773]">Venmo:</strong> @YourVenmoHandleHere</li>
-                        <li><strong class="text-[#dcb773]">Zelle:</strong> your.email@or.phone.here</li>
+                        <li><strong class="text-[#dcb773]">Zelle Email/Phone:</strong> your.email@or.phone.here</li>
                     </ul>
                     <p class="text-sm italic text-[#8c734a]">Your order will move to production once payment is verified.</p>
                 </div>
@@ -275,13 +288,14 @@
             orderData = {
                 player_name: document.getElementById('playerName').value,
                 email: document.getElementById('playerEmail').value,
-                payment_method: document.getElementById('paymentMethod').value,
+                phone: document.getElementById('playerPhone').value,
+                payment_method: "Zelle",
                 proxy_list: rawList,
                 status: "Pending"
             };
 
             document.getElementById('review-name').innerText = orderData.player_name;
-            document.getElementById('review-payment').innerText = orderData.payment_method;
+            document.getElementById('review-phone').innerText = orderData.phone;
             document.getElementById('review-cost').innerText = `$${totalCost} (${totalCards} cards across ${sheetsNeeded} sheets)`;
             document.getElementById('success-cost').innerText = `$${totalCost}`;
 
@@ -314,11 +328,16 @@
             orderData.order_id = generatedOrderId;
 
             try {
+                // Save exactly to PocketBase
                 await pb.collection('orders').create(orderData);
                 
                 step2.style.display = 'none';
                 step3.style.display = 'block';
-                document.getElementById('status-message').innerText = `Your Order ID is: ${generatedOrderId}`;
+                
+                // Inject the Order ID into both the success message and the memo warning
+                document.getElementById('status-message').innerText = generatedOrderId;
+                document.getElementById('memo-order-id').innerText = generatedOrderId;
+                
             } catch (error) {
                 console.error(error);
                 alert("Something went wrong communicating with the database. Please try again.");
