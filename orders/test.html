@@ -215,7 +215,12 @@
                         <ul class="space-y-3 font-sans text-[#bdae93] bg-[#1a1612] p-4 border border-[#5c4e3d] mb-4">
                             <li><strong class="text-[#dcb773]">Zelle Phone:</strong> (602) 615-9952</li>
                         </ul>
-                        <p class="text-sm italic text-[#8c734a]">Your order will move to production once payment is verified.</p>
+                        
+                        <p class="text-sm text-[#e0d6c8] mt-4 font-sans border-t border-[#5c4e3d] pt-3">
+                            ✉️ You will receive an email when your order is ready for local pickup.
+                        </p>
+                        
+                        <p class="text-sm italic text-[#8c734a] mt-2">Your order will move to production once payment is verified.</p>
                     </div>
                 </div>
             </div>
@@ -451,7 +456,6 @@
             resultBox.classList.add('hidden');
             
             try {
-                // Use a secure filter query that relies on the field restriction rules on the backend
                 const records = await pb.collection('orders').getList(1, 1, {
                     filter: `order_id = '${searchInput}'`
                 });
@@ -476,8 +480,16 @@
                             <span class="px-3 py-1 border rounded-full text-xs uppercase tracking-wider font-bold ${statusColor}">${record.status}</span>
                         </div>
                         <p class="mb-2"><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Name:</strong> <span class="text-[#e0d6c8]">${record.player_name}</span></p>
-                        <p class="mb-2"><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Total Amount:</strong> <span class="text-green-400 font-bold">$${record.total_price}</span></p>
-                        <p class="text-xs italic mt-4">Orders update to "Ready for Pickup" automatically when finished printing.</p>
+                        <p class="mb-4"><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Total Amount:</strong> <span class="text-green-400 font-bold">$${record.total_price}</span></p>
+                        
+                        <div class="mb-4">
+                            <label class="input-label mb-1">Submitted Decklist</label>
+                            <textarea class="input-field h-36 text-xs bg-[#120f0d] cursor-text select-all" readonly>${record.proxy_list}</textarea>
+                        </div>
+
+                        <p class="text-xs text-[#e0d6c8] border-t border-[#5c4e3d] pt-3 italic">
+                            ✉️ You will receive an email when your order is ready for local pickup.
+                        </p>
                     </div>
                 `;
                 resultBox.classList.remove('hidden');
