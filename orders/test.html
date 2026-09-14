@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- SEO Optimization Meta Tags -->
     <title>Order Proxies | Arizona Premodern</title>
     <meta name="description" content="Order high-quality Premodern MTG proxies for local play in Phoenix, Arizona.">
     
@@ -48,8 +49,9 @@
         }
     </style>
 </head>
-<body class="text-[#e0d6c8] font-serif antialiased leading-relaxed">
+<body class="text-[#e0d6c8] font-serif antialiased leading-relaxed min-h-screen flex flex-col">
 
+    <!-- Header / Hero Section -->
     <header class="bg-[#2a231d] border-b-8 border-[#8c734a] relative overflow-hidden flex items-center justify-center">
         <div class="w-full flex justify-between items-center md:absolute md:inset-0 z-0">
             <img src="../torleft.gif" alt="Header Art Left" class="w-1/2 md:w-auto h-auto md:h-full object-contain object-left pointer-events-none opacity-40 md:opacity-100">
@@ -66,13 +68,16 @@
         </div>
     </header>
 
-    <main class="max-w-3xl mx-auto px-4 md:px-6 py-8 md:py-12">
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto px-4 md:px-6 py-8 md:py-12 w-full flex-grow">
         <a href="/" class="inline-block mb-6 text-[#8c734a] hover:text-[#dcb773] transition-colors text-sm uppercase tracking-wider font-bold">
             &larr; Back to Home
         </a>
 
+        <!-- Form Container -->
         <section class="bg-[#2a231d] rounded-sm p-6 md:p-8 border-2 border-[#5c4e3d] shadow-[inset_0_0_15px_rgba(0,0,0,0.6)] relative">
             
+            <!-- Step 1: Data Entry -->
             <div id="step-1-form">
                 <h2 class="text-xl md:text-2xl font-bold text-[#dcb773] mb-6 flex items-center gap-2 border-b border-[#5c4e3d] pb-2 uppercase tracking-wide">
                     📝 Submit Your List
@@ -108,6 +113,7 @@
                 </form>
             </div>
 
+            <!-- Step 2: The Review Screen -->
             <div id="step-2-review" style="display: none;">
                 <h2 class="text-xl md:text-2xl font-bold text-[#dcb773] mb-6 flex items-center gap-2 border-b border-[#5c4e3d] pb-2 uppercase tracking-wide">
                     🔍 Review Your Order
@@ -120,10 +126,206 @@
                 </div>
                 
                 <h3 class="text-lg font-bold text-[#dcb773] mb-4 uppercase tracking-wide">Card Preview</h3>
+                
+                <div class="bg-[#3b3228] border-l-4 border-[#8c734a] p-3 mb-6 shadow-sm italic text-[#e0d6c8] text-sm font-sans">
+                    <strong class="text-[#dcb773] not-italic uppercase tracking-wider text-xs">Note:</strong> Actual card art will vary from these previews. We will ensure the final printed art is period-accurate using a printing from before <em>Scourge</em>.
+                </div>
+                
                 <div id="card-preview-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8"></div>
 
                 <div class="flex flex-col sm:flex-row gap-4 mt-8">
                     <button id="btn-edit" class="w-full sm:w-1/3 bg-[#3b3228] hover:bg-[#5c4e3d] text-[#e0d6c8] font-bold px-4 py-3 rounded-sm transition-colors shadow-md border border-[#8c734a] uppercase tracking-wider">
                         Edit List
                     </button>
-                    <button id="btn-confirm" class="w-full sm:w
+                    <button id="btn-confirm" class="w-full sm:w-2/3 bg-[#8c734a] hover:bg-[#a68a5c] text-[#1a1612] font-bold px-4 py-3 rounded-sm transition-colors shadow-md border border-[#dcb773] uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed">
+                        Confirm & Submit Order
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Success Message -->
+            <div id="step-3-success" style="display: none;">
+                <h2 class="text-2xl md:text-3xl font-bold text-green-400 mb-4 flex items-center gap-2 uppercase tracking-wide">
+                    ✅ Order Submitted
+                </h2>
+                <p id="status-message" class="text-lg text-[#e0d6c8] mb-6 font-bold"></p>
+                
+                <div class="bg-[#3b3228] rounded-sm p-6 border-2 border-[#8c734a] shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
+                    <h3 class="font-bold text-[#dcb773] mb-4 uppercase tracking-wide border-b border-[#5c4e3d] pb-2">Payment Instructions</h3>
+                    <p class="text-xl mb-4">Your total is: <strong id="success-cost" class="text-green-400 font-bold"></strong></p>
+                    <p class="text-[#e0d6c8] mb-4">Please send your payment using the method you selected. <strong class="text-[#dcb773]">You must include your Order ID in the payment memo!</strong></p>
+                    
+                    <ul class="space-y-3 font-sans text-[#bdae93] bg-[#1a1612] p-4 border border-[#5c4e3d] mb-4">
+                        <li><strong class="text-[#dcb773]">Venmo:</strong> @YourVenmoHandleHere</li>
+                        <li><strong class="text-[#dcb773]">Zelle:</strong> your.email@or.phone.here</li>
+                    </ul>
+                    <p class="text-sm italic text-[#8c734a]">Your order will move to production once payment is verified.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1a1612] py-6 md:py-8 text-center border-t-4 border-[#8c734a] mt-8 md:mt-12 relative overflow-hidden px-4">
+        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100\' height=\'100\' filter=\'url(%23noise)\' opacity=\'0.08\'/%3E%3C/svg%3E');"></div>
+        <div class="relative z-10">
+            <p class="text-[#bdae93] text-xs md:text-sm tracking-wide font-bold">
+                © 2026 Arizona Premodern. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script type="module">
+        import PocketBase from 'https://unpkg.com/pocketbase/dist/pocketbase.es.mjs';
+        const pb = new PocketBase('https://api.arizonapremodern.com');
+
+        const step1 = document.getElementById('step-1-form');
+        const step2 = document.getElementById('step-2-review');
+        const step3 = document.getElementById('step-3-success');
+        const form = document.getElementById('proxy-order-form');
+        const previewGrid = document.getElementById('card-preview-grid');
+
+        let orderData = {};
+        let cardDatabase = {};
+        let lowerCaseIndex = {};
+
+        // Fetch JSON database
+        async function loadDatabase() {
+            try {
+                const response = await fetch('/results/premodern-cards.json');
+                if (response.ok) {
+                    cardDatabase = await response.json();
+                    for (let key in cardDatabase) {
+                        lowerCaseIndex[key.toLowerCase()] = key;
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to load card database:", e);
+            }
+        }
+        loadDatabase();
+
+        function parseMtgList(rawText) {
+            const lines = rawText.split('\n');
+            const parsedCards = [];
+            
+            lines.forEach(line => {
+                let cleanLine = line.trim();
+                if (!cleanLine) return; 
+                
+                const match = cleanLine.match(/^(\d+)[xX]?\s+(.+)$/);
+                let qty = 1;
+                let name = cleanLine;
+
+                if (match) {
+                    qty = parseInt(match[1], 10);
+                    name = match[2].trim();
+                }
+
+                name = name.split(' (')[0].trim();
+                parsedCards.push({ qty, name });
+            });
+            return parsedCards;
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
+            const rawList = document.getElementById('proxyList').value;
+            const cardList = parseMtgList(rawList);
+            const invalidCards = [];
+            const validCardsData = [];
+            let totalCards = 0;
+
+            for (const card of cardList) {
+                const searchName = card.name.toLowerCase();
+                const exactName = lowerCaseIndex[searchName];
+                
+                if (exactName) {
+                    totalCards += card.qty;
+                    validCardsData.push({
+                        qty: card.qty,
+                        name: exactName,
+                        imageUrl: cardDatabase[exactName].image
+                    });
+                } else {
+                    invalidCards.push(card.name);
+                }
+            }
+
+            if (invalidCards.length > 0) {
+                alert("The following card(s) are either not Premodern legal or were misspelled:\n\n- " + invalidCards.join("\n- ") + "\n\nPlease fix them before submitting.");
+                return; 
+            }
+
+            const remainder = totalCards % 8;
+            const sheetsNeeded = Math.ceil(totalCards / 8);
+            const totalCost = sheetsNeeded * 2;
+
+            if (remainder !== 0) {
+                const unusedSlots = 8 - remainder;
+                const proceed = confirm(`You have ${totalCards} cards.\n\nWe print in sheets of 8 ($2 per sheet). You currently have ${unusedSlots} blank spots on your final sheet.\n\nClick 'Cancel' to go back and add ${unusedSlots} more cards to get the most value, or click 'OK' to proceed and pay $${totalCost} for the full sheet.`);
+                
+                if (!proceed) {
+                    return; 
+                }
+            }
+
+            orderData = {
+                player_name: document.getElementById('playerName').value,
+                email: document.getElementById('playerEmail').value,
+                payment_method: document.getElementById('paymentMethod').value,
+                proxy_list: rawList,
+                status: "Pending"
+            };
+
+            document.getElementById('review-name').innerText = orderData.player_name;
+            document.getElementById('review-payment').innerText = orderData.payment_method;
+            document.getElementById('review-cost').innerText = `$${totalCost} (${totalCards} cards across ${sheetsNeeded} sheets)`;
+            document.getElementById('success-cost').innerText = `$${totalCost}`;
+
+            step1.style.display = 'none';
+            step2.style.display = 'block';
+            previewGrid.innerHTML = '';
+
+            for (const card of validCardsData) {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'text-center font-sans text-sm text-[#bdae93]';
+                cardDiv.innerHTML = `
+                    <img src="${card.imageUrl}" alt="${card.name}" class="w-full rounded-[4.75%] shadow-[0_4px_6px_rgba(0,0,0,0.6)] border border-[#5c4e3d] mb-2" />
+                    <div><strong class="text-[#e0d6c8]">${card.qty}x</strong> ${card.name}</div>
+                `;
+                previewGrid.appendChild(cardDiv);
+            }
+        });
+
+        document.getElementById('btn-edit').addEventListener('click', function() {
+            step2.style.display = 'none';
+            step1.style.display = 'block';
+        });
+
+        document.getElementById('btn-confirm').addEventListener('click', async function() {
+            const confirmBtn = document.getElementById('btn-confirm');
+            confirmBtn.innerText = "Submitting...";
+            confirmBtn.disabled = true;
+
+            const generatedOrderId = "AZP-" + Math.floor(1000 + Math.random() * 9000);
+            orderData.order_id = generatedOrderId;
+
+            try {
+                await pb.collection('orders').create(orderData);
+                
+                step2.style.display = 'none';
+                step3.style.display = 'block';
+                document.getElementById('status-message').innerText = `Your Order ID is: ${generatedOrderId}`;
+            } catch (error) {
+                console.error(error);
+                alert("Something went wrong communicating with the database. Please try again.");
+                confirmBtn.innerText = "Confirm & Submit Order";
+                confirmBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
