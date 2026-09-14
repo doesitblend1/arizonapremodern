@@ -14,6 +14,13 @@
     border-radius: 4.75% / 3.5%; 
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   }
+  .success-box {
+    margin-top: 20px; 
+    padding: 20px; 
+    border: 2px solid #4CAF50; 
+    border-radius: 8px;
+    background-color: #f9fff9;
+  }
 </style>
 
 <!-- Step 1: Data Entry -->
@@ -23,8 +30,8 @@
     <input type="text" id="playerName" placeholder="Your Name" required />
     <input type="email" id="playerEmail" placeholder="Your Email" required />
     
+    <!-- Cash option removed -->
     <select id="paymentMethod" required>
-      <option value="Cash">Cash</option>
       <option value="Venmo">Venmo</option>
       <option value="Zelle">Zelle</option>
     </select>
@@ -40,6 +47,7 @@
   <h3>Step 2: Review Your Order</h3>
   <p><strong>Name:</strong> <span id="review-name"></span></p>
   <p><strong>Payment Method:</strong> <span id="review-payment"></span></p>
+  <p><strong>Total Cost:</strong> <span id="review-cost"></span></p>
   
   <div id="card-preview-grid"></div>
 
@@ -51,7 +59,18 @@
 
 <!-- Step 3: Success Message (Hidden by default) -->
 <div id="step-3-success" style="display: none;">
-  <h3 id="status-message"></h3>
+  <h3 id="status-message" style="color: #4CAF50;"></h3>
+  
+  <div class="success-box">
+    <h4>Payment Instructions</h4>
+    <p>Your total is: <strong id="success-cost" style="font-size: 1.2em;"></strong></p>
+    <p>Please send your payment using the method you selected. <strong>You must include your Order ID in the payment memo!</strong></p>
+    <ul>
+      <li><strong>Venmo:</strong> @YourVenmoHandleHere</li>
+      <li><strong>Zelle:</strong> your.email@or.phone.here</li>
+    </ul>
+    <p><em>Your order will move to production once payment is verified.</em></p>
+  </div>
 </div>
 
 <script type="module">
@@ -74,13 +93,9 @@
       const response = await fetch('/results/premodern-cards.json');
       if (response.ok) {
         cardDatabase = await response.json();
-        
-        // Build a lowercase index so players don't have to worry about capitalization
         for (let key in cardDatabase) {
           lowerCaseIndex[key.toLowerCase()] = key;
         }
-      } else {
-        console.error("Could not locate /results/premodern-cards.json");
       }
     } catch (e) {
       console.error("Failed to load card database:", e);
@@ -94,7 +109,7 @@
     
     lines.forEach(line => {
       let cleanLine = line.trim();
-      if (!cleanLine) return; // Skip empty lines
+      if (!cleanLine) return; 
       
       const match = cleanLine.match(/^(\d+)[xX]?\s+(.+)$/);
       let qty = 1;
@@ -105,7 +120,6 @@
         name = match[2].trim();
       }
 
-      // Strip out set codes just in case they paste them
       name = name.split(' (')[0].trim();
       parsedCards.push({ qty, name });
     });
@@ -120,13 +134,15 @@
     const cardList = parseMtgList(rawList);
     const invalidCards = [];
     const validCardsData = [];
+    let totalCards = 0;
 
-    // Validate every card against the database
     for (const card of cardList) {
       const searchName = card.name.toLowerCase();
       const exactName = lowerCaseIndex[searchName];
       
       if (exactName) {
+        // Multiply by quantity so "4x" counts as 4 cards towards the total
+        totalCards += card.qty;
         validCardsData.push({
           qty: card.qty,
           name: exactName,
@@ -137,10 +153,23 @@
       }
     }
 
-    // If any cards failed the check, halt and alert the player
     if (invalidCards.length > 0) {
       alert("The following card(s) are either not Premodern legal or were misspelled:\n\n- " + invalidCards.join("\n- ") + "\n\nPlease fix them before submitting.");
-      return; // Stop the script here so they stay on Step 1
+      return; 
+    }
+
+    // --- The $2 per 8 cards logic ---
+    const remainder = totalCards % 8;
+    const sheetsNeeded = Math.ceil(totalCards / 8);
+    const totalCost = sheetsNeeded * 2;
+
+    if (remainder !== 0) {
+      const unusedSlots = 8 - remainder;
+      const proceed = confirm(`You have ${totalCards} cards.\n\nWe print in sheets of 8 ($2 per sheet). You currently have ${unusedSlots} blank spots on your final sheet.\n\nClick 'Cancel' to go back and add ${unusedSlots} more cards to get the most value, or click 'OK' to proceed and pay $${totalCost} for the full sheet.`);
+      
+      if (!proceed) {
+        return; // Stops the script so they can edit the form
+      }
     }
 
     // Save the data to memory
@@ -154,13 +183,15 @@
 
     document.getElementById('review-name').innerText = orderData.player_name;
     document.getElementById('review-payment').innerText = orderData.payment_method;
+    document.getElementById('review-cost').innerText = `$${totalCost} (${totalCards} cards across ${sheetsNeeded} sheets)`;
+    
+    // Store the cost to inject into the final success screen later
+    document.getElementById('success-cost').innerText = `$${totalCost}`;
 
-    // Switch views and clear the old grid
     step1.style.display = 'none';
     step2.style.display = 'block';
     previewGrid.innerHTML = '';
 
-    // Render the grid using the URLs stored in the JSON
     for (const card of validCardsData) {
       const cardDiv = document.createElement('div');
       cardDiv.className = 'card-preview-item';
@@ -195,7 +226,7 @@
       document.getElementById('status-message').innerText = `Success! Your Order ID is: ${generatedOrderId}`;
     } catch (error) {
       console.error(error);
-      alert("Something went wrong communicating with the server. Please try again.");
+      alert("Something went wrong communicating with the database. Please try again.");
       confirmBtn.innerText = "Confirm & Submit";
       confirmBtn.disabled = false;
     }
