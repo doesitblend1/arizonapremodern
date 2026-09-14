@@ -265,7 +265,7 @@
 
             if (remainder !== 0) {
                 const unusedSlots = 8 - remainder;
-                const proceed = confirm(`You have ${totalCards} cards.\n\nWe print in sheets of 8 ($2 per sheet). You currently have ${unusedSlots} blank spots on your final sheet.\n\nClick 'Cancel' to go back and add ${unusedSlots} more cards to get the most value, or click 'OK' to proceed and pay $${totalCost} for the full sheet.`);
+                const proceed = confirm(`You have ${totalCards} cards in your list.\n\nWe print in sheets of 8 ($2 per sheet). You currently have ${unusedSlots} blank spots on your final sheet.\n\nAdding ${unusedSlots} more cards will NOT affect your total price of $${totalCost}.\n\nIf you choose to proceed without adding more cards, the remaining ${unusedSlots} spots will be printed as tokens.\n\nClick 'Cancel' to go back and add more cards, or 'OK' to proceed.`);
                 
                 if (!proceed) {
                     return; 
