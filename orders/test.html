@@ -47,6 +47,21 @@
             letter-spacing: 0.05em;
             font-size: 0.875rem;
         }
+        
+        /* Tab Styles */
+        .tab-active {
+            background-color: #8c734a;
+            color: #1a1612;
+            border-bottom-color: transparent;
+        }
+        .tab-inactive {
+            background-color: #2a231d;
+            color: #bdae93;
+        }
+        .tab-inactive:hover {
+            background-color: #3b3228;
+            color: #dcb773;
+        }
     </style>
 </head>
 <body class="text-[#e0d6c8] font-serif antialiased leading-relaxed min-h-screen flex flex-col">
@@ -77,120 +92,149 @@
         <!-- Form Container -->
         <section class="bg-[#2a231d] rounded-sm p-6 md:p-8 border-2 border-[#5c4e3d] shadow-[inset_0_0_15px_rgba(0,0,0,0.6)] relative">
             
-            <!-- Step 1: Data Entry -->
-            <div id="step-1-form">
-                <h2 class="text-xl md:text-2xl font-bold text-[#dcb773] mb-6 flex items-center gap-2 border-b border-[#5c4e3d] pb-2 uppercase tracking-wide">
-                    📝 Submit Your List
-                </h2>
-                
-                <!-- Information / Rules Box -->
-                <div class="bg-[#3b3228] border-l-4 border-[#8c734a] p-4 md:p-5 mb-8 shadow-sm text-[#e0d6c8] text-sm md:text-base font-sans leading-relaxed space-y-3">
-                    <p>
-                        This service is built to encourage varying playstyles, allowing players to easily try out new decks without having to make their own proxies or break the bank.
-                    </p>
-                    <p>
-                        <strong class="text-[#dcb773] uppercase tracking-wider text-xs md:text-sm mr-1">Strictly Premodern:</strong> 
-                        This form is limited <em>only</em> to Premodern legal cards. Any orders containing cards outside of the format will be automatically rejected.
-                    </p>
-                    <p>
-                        <strong class="text-[#dcb773] uppercase tracking-wider text-xs md:text-sm mr-1">Local Pickup Only:</strong> 
-                        Shipping is strictly not available. The purchaser is responsible for picking up their cards from the North Phoenix area (typically delivered during our Tuesday meetups).
-                    </p>
-                </div>
+            <!-- Tabs -->
+            <div class="flex border-b border-[#5c4e3d] mb-6 md:mb-8 font-sans">
+                <button id="tab-new-order" class="px-6 py-3 font-bold rounded-t-sm uppercase tracking-wider text-sm transition-colors border border-b-0 border-[#5c4e3d] tab-active">
+                    New Order
+                </button>
+                <button id="tab-check-order" class="px-6 py-3 font-bold rounded-t-sm uppercase tracking-wider text-sm transition-colors border border-b-0 border-transparent tab-inactive ml-1">
+                    Check Status
+                </button>
+            </div>
 
-                <form id="proxy-order-form">
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="input-label" for="playerName">Your Name</label>
-                            <input type="text" id="playerName" class="input-field" placeholder="Jace Beleren" required />
-                        </div>
-                        <div>
-                            <label class="input-label" for="playerEmail">Email Address</label>
-                            <input type="email" id="playerEmail" class="input-field" placeholder="jace@ravnica.com" required />
-                        </div>
-                        <div>
-                            <label class="input-label" for="playerPhone">Phone Number</label>
-                            <input type="tel" id="playerPhone" class="input-field" placeholder="(555) 555-5555" required />
-                        </div>
-                        <div>
-                            <label class="input-label">Payment Method</label>
-                            <div class="input-field bg-[#2a231d] text-[#bdae93] cursor-not-allowed select-none">
-                                Zelle Only
+            <!-- View 1: New Order Flow -->
+            <div id="view-new-order">
+                <!-- Step 1: Data Entry -->
+                <div id="step-1-form">
+                    <!-- Information / Rules Box -->
+                    <div class="bg-[#3b3228] border-l-4 border-[#8c734a] p-4 md:p-5 mb-8 shadow-sm text-[#e0d6c8] text-sm md:text-base font-sans leading-relaxed space-y-4">
+                        <p>
+                            This service is built to encourage varying playstyles, allowing players to easily try out new decks without having to make their own proxies or break the bank.
+                        </p>
+                        <p>
+                            <strong class="text-[#dcb773] uppercase tracking-wider text-xs md:text-sm mr-1 block md:inline">Pricing Breakdown:</strong> 
+                            The minimum order is <strong>40 cards for $10.00</strong>. Every additional 8 cards (one full printed sheet) is $2.00 extra. For example, a typical 60-card deck with a 15-card sideboard and 5 extra alternate cards (80 cards total) will run you exactly $20.00.
+                        </p>
+                        <p>
+                            <strong class="text-[#dcb773] uppercase tracking-wider text-xs md:text-sm mr-1 block md:inline">Strictly Premodern:</strong> 
+                            This form is limited <em>only</em> to Premodern legal cards. Any orders containing cards outside of the format will be automatically rejected.
+                        </p>
+                        <p>
+                            <strong class="text-[#dcb773] uppercase tracking-wider text-xs md:text-sm mr-1 block md:inline">Local Pickup Only:</strong> 
+                            Shipping is strictly not available. The purchaser is responsible for picking up their cards from the North Phoenix area.
+                        </p>
+                    </div>
+
+                    <form id="proxy-order-form">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="input-label" for="playerName">Your Name</label>
+                                <input type="text" id="playerName" class="input-field" placeholder="Jace Beleren" required />
+                            </div>
+                            <div>
+                                <label class="input-label" for="playerEmail">Email Address</label>
+                                <input type="email" id="playerEmail" class="input-field" placeholder="jace@ravnica.com" required />
+                            </div>
+                            <div>
+                                <label class="input-label" for="playerPhone">Phone Number</label>
+                                <input type="tel" id="playerPhone" class="input-field" placeholder="(555) 555-5555" required />
+                            </div>
+                            <div>
+                                <label class="input-label">Payment Method</label>
+                                <div class="input-field bg-[#2a231d] text-[#bdae93] cursor-not-allowed select-none">
+                                    Zelle Only
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <label class="input-label" for="proxyList">Decklist (Text Format Only)</label>
-                        <textarea id="proxyList" class="input-field h-40" placeholder="4x Brainstorm&#10;4x Swords to Plowshares&#10;1x Morphling" required></textarea>
+                        <div>
+                            <label class="input-label" for="proxyList">Decklist (Text Format Only)</label>
+                            <textarea id="proxyList" class="input-field h-40" placeholder="4x Brainstorm&#10;4x Swords to Plowshares&#10;1x Morphling" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full block text-center bg-[#8c734a] hover:bg-[#a68a5c] text-[#1a1612] font-bold px-8 py-3 rounded-sm transition-colors shadow-md border border-[#dcb773] uppercase tracking-wider mt-2">
+                            Review Order
+                        </button> 
+                    </form>
+                </div>
+
+                <!-- Step 2: The Review Screen -->
+                <div id="step-2-review" style="display: none;">
+                    <h2 class="text-xl md:text-2xl font-bold text-[#dcb773] mb-6 flex items-center gap-2 border-b border-[#5c4e3d] pb-2 uppercase tracking-wide">
+                        🔍 Review Your Order
+                    </h2>
+                    
+                    <div class="bg-[#1a1612] p-4 border border-[#5c4e3d] rounded-sm mb-6 font-sans text-[#bdae93]">
+                        <div class="grid grid-cols-2 gap-2">
+                            <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Name:</strong> <span id="review-name" class="text-[#e0d6c8]"></span></p>
+                            <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Phone:</strong> <span id="review-phone" class="text-[#e0d6c8]"></span></p>
+                            <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Payment Method:</strong> <span class="text-[#e0d6c8]">Zelle</span></p>
+                            <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Total Cost:</strong> <span id="review-cost" class="text-green-400 font-bold"></span></p>
+                        </div>
                     </div>
                     
-                    <button type="submit" class="w-full block text-center bg-[#8c734a] hover:bg-[#a68a5c] text-[#1a1612] font-bold px-8 py-3 rounded-sm transition-colors shadow-md border border-[#dcb773] uppercase tracking-wider mt-2">
-                        Review Order
+                    <h3 class="text-lg font-bold text-[#dcb773] mb-4 uppercase tracking-wide">Card Preview</h3>
+                    
+                    <div class="bg-[#3b3228] border-l-4 border-[#8c734a] p-3 mb-6 shadow-sm italic text-[#e0d6c8] text-sm font-sans">
+                        <strong class="text-[#dcb773] not-italic uppercase tracking-wider text-xs">Note:</strong> Actual card art will vary from these previews. We will ensure the final printed art is period-accurate using a printing from before <em>Scourge</em>.
+                    </div>
+                    
+                    <div id="card-preview-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8"></div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 mt-8">
+                        <button id="btn-edit" class="w-full sm:w-1/3 bg-[#3b3228] hover:bg-[#5c4e3d] text-[#e0d6c8] font-bold px-4 py-3 rounded-sm transition-colors shadow-md border border-[#8c734a] uppercase tracking-wider">
+                            Edit List
+                        </button>
+                        <button id="btn-confirm" class="w-full sm:w-2/3 bg-[#8c734a] hover:bg-[#a68a5c] text-[#1a1612] font-bold px-4 py-3 rounded-sm transition-colors shadow-md border border-[#dcb773] uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed">
+                            Confirm & Submit Order
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Success Message -->
+                <div id="step-3-success" style="display: none;">
+                    <h2 class="text-2xl md:text-3xl font-bold text-green-400 mb-4 flex items-center gap-2 uppercase tracking-wide">
+                        ✅ Order Submitted
+                    </h2>
+                    <p class="text-lg text-[#e0d6c8] mb-6 font-bold font-sans">
+                        Your Order ID is: <span id="status-message" class="text-[#dcb773] text-2xl tracking-wider ml-2"></span>
+                    </p>
+                    
+                    <div class="bg-[#3b3228] rounded-sm p-6 border-2 border-[#8c734a] shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
+                        <h3 class="font-bold text-[#dcb773] mb-4 uppercase tracking-wide border-b border-[#5c4e3d] pb-2">Payment Instructions</h3>
+                        
+                        <p class="text-xl mb-4">Your total is: <strong id="success-cost" class="text-green-400 font-bold"></strong></p>
+                        
+                        <div class="bg-red-900/40 border border-red-500/50 p-4 rounded-sm mb-6">
+                            <p class="text-[#e0d6c8] font-bold">
+                                ⚠️ CRITICAL: You <span class="underline">MUST</span> include your Order ID (<span id="memo-order-id" class="text-[#dcb773]"></span>) in the Zelle memo line!
+                            </p>
+                            <p class="text-sm text-[#bdae93] mt-1">If you do not include this ID, we cannot match your payment to your cards, and your order will not be printed.</p>
+                        </div>
+                        
+                        <ul class="space-y-3 font-sans text-[#bdae93] bg-[#1a1612] p-4 border border-[#5c4e3d] mb-4">
+                            <li><strong class="text-[#dcb773]">Zelle Phone:</strong> (602) 615-9952</li>
+                        </ul>
+                        <p class="text-sm italic text-[#8c734a]">Your order will move to production once payment is verified.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View 2: Check Order Status -->
+            <div id="view-check-order" style="display: none;">
+                <form id="check-status-form">
+                    <label class="input-label" for="searchOrderId">Order ID</label>
+                    <input type="text" id="searchOrderId" class="input-field" placeholder="e.g., AZP-1234" required />
+                    
+                    <button type="submit" class="w-full block text-center bg-[#3b3228] hover:bg-[#5c4e3d] text-[#e0d6c8] font-bold px-8 py-3 rounded-sm transition-colors shadow-md border border-[#8c734a] uppercase tracking-wider mt-2">
+                        Search Database
                     </button> 
                 </form>
+
+                <!-- Status Results Injection Point -->
+                <div id="status-result-box" class="mt-8 hidden"></div>
             </div>
 
-            <!-- Step 2: The Review Screen -->
-            <div id="step-2-review" style="display: none;">
-                <h2 class="text-xl md:text-2xl font-bold text-[#dcb773] mb-6 flex items-center gap-2 border-b border-[#5c4e3d] pb-2 uppercase tracking-wide">
-                    🔍 Review Your Order
-                </h2>
-                
-                <div class="bg-[#1a1612] p-4 border border-[#5c4e3d] rounded-sm mb-6 font-sans text-[#bdae93]">
-                    <div class="grid grid-cols-2 gap-2">
-                        <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Name:</strong> <span id="review-name" class="text-[#e0d6c8]"></span></p>
-                        <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Phone:</strong> <span id="review-phone" class="text-[#e0d6c8]"></span></p>
-                        <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Payment Method:</strong> <span class="text-[#e0d6c8]">Zelle</span></p>
-                        <p><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Total Cost:</strong> <span id="review-cost" class="text-green-400 font-bold"></span></p>
-                    </div>
-                </div>
-                
-                <h3 class="text-lg font-bold text-[#dcb773] mb-4 uppercase tracking-wide">Card Preview</h3>
-                
-                <div class="bg-[#3b3228] border-l-4 border-[#8c734a] p-3 mb-6 shadow-sm italic text-[#e0d6c8] text-sm font-sans">
-                    <strong class="text-[#dcb773] not-italic uppercase tracking-wider text-xs">Note:</strong> Actual card art will vary from these previews. We will ensure the final printed art is period-accurate using a printing from before <em>Scourge</em>.
-                </div>
-                
-                <div id="card-preview-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8"></div>
-
-                <div class="flex flex-col sm:flex-row gap-4 mt-8">
-                    <button id="btn-edit" class="w-full sm:w-1/3 bg-[#3b3228] hover:bg-[#5c4e3d] text-[#e0d6c8] font-bold px-4 py-3 rounded-sm transition-colors shadow-md border border-[#8c734a] uppercase tracking-wider">
-                        Edit List
-                    </button>
-                    <button id="btn-confirm" class="w-full sm:w-2/3 bg-[#8c734a] hover:bg-[#a68a5c] text-[#1a1612] font-bold px-4 py-3 rounded-sm transition-colors shadow-md border border-[#dcb773] uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed">
-                        Confirm & Submit Order
-                    </button>
-                </div>
-            </div>
-
-            <!-- Step 3: Success Message -->
-            <div id="step-3-success" style="display: none;">
-                <h2 class="text-2xl md:text-3xl font-bold text-green-400 mb-4 flex items-center gap-2 uppercase tracking-wide">
-                    ✅ Order Submitted
-                </h2>
-                <p class="text-lg text-[#e0d6c8] mb-6 font-bold font-sans">
-                    Your Order ID is: <span id="status-message" class="text-[#dcb773] text-2xl tracking-wider ml-2"></span>
-                </p>
-                
-                <div class="bg-[#3b3228] rounded-sm p-6 border-2 border-[#8c734a] shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
-                    <h3 class="font-bold text-[#dcb773] mb-4 uppercase tracking-wide border-b border-[#5c4e3d] pb-2">Payment Instructions</h3>
-                    
-                    <p class="text-xl mb-4">Your total is: <strong id="success-cost" class="text-green-400 font-bold"></strong></p>
-                    
-                    <div class="bg-red-900/40 border border-red-500/50 p-4 rounded-sm mb-6">
-                        <p class="text-[#e0d6c8] font-bold">
-                            ⚠️ CRITICAL: You <span class="underline">MUST</span> include your Order ID (<span id="memo-order-id" class="text-[#dcb773]"></span>) in the Zelle memo line!
-                        </p>
-                        <p class="text-sm text-[#bdae93] mt-1">If you do not include this ID, we cannot match your payment to your cards, and your order will not be printed.</p>
-                    </div>
-                    
-                    <ul class="space-y-3 font-sans text-[#bdae93] bg-[#1a1612] p-4 border border-[#5c4e3d] mb-4">
-                        <li><strong class="text-[#dcb773]">Zelle Phone:</strong> (602) 615-9952</li>
-                    </ul>
-                    <p class="text-sm italic text-[#8c734a]">Your order will move to production once payment is verified.</p>
-                </div>
-            </div>
         </section>
     </main>
 
@@ -209,6 +253,13 @@
         import PocketBase from 'https://unpkg.com/pocketbase/dist/pocketbase.es.mjs';
         const pb = new PocketBase('https://orders.arizonapremodern.com');
 
+        // Layout Elements
+        const tabNew = document.getElementById('tab-new-order');
+        const tabCheck = document.getElementById('tab-check-order');
+        const viewNew = document.getElementById('view-new-order');
+        const viewCheck = document.getElementById('view-check-order');
+
+        // Form Flow Elements
         const step1 = document.getElementById('step-1-form');
         const step2 = document.getElementById('step-2-review');
         const step3 = document.getElementById('step-3-success');
@@ -219,7 +270,24 @@
         let cardDatabase = {};
         let lowerCaseIndex = {};
 
-        // Fetch JSON database
+        // --- TAB SWITCHING LOGIC ---
+        tabNew.addEventListener('click', () => {
+            tabNew.className = "px-6 py-3 font-bold rounded-t-sm uppercase tracking-wider text-sm transition-colors border border-b-0 border-[#5c4e3d] tab-active";
+            tabCheck.className = "px-6 py-3 font-bold rounded-t-sm uppercase tracking-wider text-sm transition-colors border border-b-0 border-transparent tab-inactive ml-1";
+            
+            viewNew.style.display = 'block';
+            viewCheck.style.display = 'none';
+        });
+
+        tabCheck.addEventListener('click', () => {
+            tabCheck.className = "px-6 py-3 font-bold rounded-t-sm uppercase tracking-wider text-sm transition-colors border border-b-0 border-[#5c4e3d] tab-active ml-1";
+            tabNew.className = "px-6 py-3 font-bold rounded-t-sm uppercase tracking-wider text-sm transition-colors border border-b-0 border-transparent tab-inactive";
+            
+            viewNew.style.display = 'none';
+            viewCheck.style.display = 'block';
+        });
+
+        // --- FETCH CARDS DATABASE ---
         async function loadDatabase() {
             try {
                 const response = await fetch('/results/premodern-cards.json');
@@ -258,6 +326,7 @@
             return parsedCards;
         }
 
+        // --- ORDER SUBMISSION LOGIC ---
         form.addEventListener('submit', function(e) {
             e.preventDefault(); 
 
@@ -288,13 +357,20 @@
                 return; 
             }
 
+            // Minimum 40 card check
+            if (totalCards < 40) {
+                const deficit = 40 - totalCards;
+                alert(`The minimum order size is 40 cards ($10.00). Your list currently has ${totalCards} cards.\n\nPlease add ${deficit} more cards to meet the minimum requirement.`);
+                return;
+            }
+
             const remainder = totalCards % 8;
             const sheetsNeeded = Math.ceil(totalCards / 8);
             const totalCost = sheetsNeeded * 2;
 
             if (remainder !== 0) {
                 const unusedSlots = 8 - remainder;
-                const proceed = confirm(`You have ${totalCards} cards in your list.\n\nWe print in sheets of 8 ($2 per sheet). You currently have ${unusedSlots} blank spots on your final sheet.\n\nAdding ${unusedSlots} more cards will NOT affect your total price of $${totalCost}.\n\nIf you choose to proceed without adding more cards, the remaining ${unusedSlots} spots will be printed as tokens.\n\nClick 'Cancel' to go back and add more cards, or 'OK' to proceed.`);
+                const proceed = confirm(`You have ${totalCards} cards in your list.\n\nWe print in sheets of 8 ($2 per sheet, 40 card minimum). You currently have ${unusedSlots} blank spots on your final sheet.\n\nAdding ${unusedSlots} more cards will NOT affect your total price of $${totalCost}.\n\nIf you choose to proceed without adding more cards, the remaining ${unusedSlots} spots will be printed as tokens.\n\nClick 'Cancel' to go back and add more cards, or 'OK' to proceed.`);
                 
                 if (!proceed) {
                     return; 
@@ -361,6 +437,63 @@
                 confirmBtn.innerText = "Confirm & Submit Order";
                 confirmBtn.disabled = false;
             }
+        });
+
+        // --- CHECK STATUS LOGIC (SECURE FILTER QUERY) ---
+        document.getElementById('check-status-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const searchInput = document.getElementById('searchOrderId').value.trim().toUpperCase();
+            const resultBox = document.getElementById('status-result-box');
+            const submitBtn = e.target.querySelector('button');
+            
+            submitBtn.innerText = "Searching...";
+            submitBtn.disabled = true;
+            resultBox.classList.add('hidden');
+            
+            try {
+                // Use a secure filter query that relies on the field restriction rules on the backend
+                const records = await pb.collection('orders').getList(1, 1, {
+                    filter: `order_id = '${searchInput}'`
+                });
+                
+                if (records.items.length === 0) {
+                    throw new Error("Order not found");
+                }
+                
+                const record = records.items[0];
+                
+                let statusColor = "bg-[#3b3228] text-[#e0d6c8] border-[#8c734a]";
+                if(record.status === "Completed" || record.status === "Ready for Pickup") {
+                    statusColor = "bg-green-900/40 text-green-400 border-green-500/50";
+                } else if(record.status === "Printing") {
+                    statusColor = "bg-blue-900/40 text-blue-400 border-blue-500/50";
+                }
+                
+                resultBox.innerHTML = `
+                    <div class="bg-[#1a1612] p-6 border border-[#5c4e3d] rounded-sm font-sans text-[#bdae93]">
+                        <div class="flex justify-between items-center border-b border-[#5c4e3d] pb-4 mb-4">
+                            <h3 class="text-xl font-bold text-[#dcb773]">Order: ${record.order_id}</h3>
+                            <span class="px-3 py-1 border rounded-full text-xs uppercase tracking-wider font-bold ${statusColor}">${record.status}</span>
+                        </div>
+                        <p class="mb-2"><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Name:</strong> <span class="text-[#e0d6c8]">${record.player_name}</span></p>
+                        <p class="mb-2"><strong class="text-[#dcb773] uppercase text-xs tracking-wider">Total Amount:</strong> <span class="text-green-400 font-bold">$${record.total_price}</span></p>
+                        <p class="text-xs italic mt-4">Orders update to "Ready for Pickup" automatically when finished printing.</p>
+                    </div>
+                `;
+                resultBox.classList.remove('hidden');
+            } catch (error) {
+                console.error(error);
+                resultBox.innerHTML = `
+                    <div class="bg-red-900/40 border border-red-500/50 p-4 rounded-sm text-center">
+                        <p class="text-[#e0d6c8] font-bold">⚠️ Order not found.</p>
+                        <p class="text-sm text-[#bdae93] mt-1">Please double check your Order ID (e.g. AZP-1234). Note that order IDs are case sensitive and require the AZP- prefix.</p>
+                    </div>
+                `;
+                resultBox.classList.remove('hidden');
+            }
+            
+            submitBtn.innerText = "Search Database";
+            submitBtn.disabled = false;
         });
     </script>
 </body>
