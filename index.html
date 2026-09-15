@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- SEO Optimization Meta Tags -->
     <title>Phoenix, Arizona Premodern Magic the Gathering Meetup</title>
     <meta name="description" content="Join the Phoenix, Arizona Premodern Magic the Gathering community. Free weekly MTG meetups, 100% proxy friendly, with complete loaner decks available. Play the best era of Magic locally!">
     <meta name="keywords" content="Premodern Magic, Magic the Gathering, Phoenix AZ, MTG, Premodern MTG, Phoenix Magic the Gathering, MTG proxies, Magic meetups, Arizona MTG">
     <meta name="author" content="Phoenix Premodern Community">
-    
+
     <!-- Open Graph for Social Sharing (Discord, Facebook, etc.) -->
     <meta property="og:title" content="Phoenix, Arizona Premodern Magic the Gathering">
     <meta property="og:description" content="Free weekly Premodern MTG meetups in Phoenix. 100% proxy friendly and loaner decks available. Join our Discord!">
@@ -42,14 +42,14 @@
 
     <!-- Header / Hero Section -->
     <header class="bg-[#2a231d] border-b-8 border-[#8c734a] relative overflow-hidden flex items-center justify-center">
-        
+
         <!-- Image Layer: Flex on mobile to dictate height, absolute on desktop to frame text -->
         <div class="w-full flex justify-between items-center md:absolute md:inset-0 z-0">
             <!-- w-1/2 on mobile to take up exactly half width, preserving aspect ratio. On desktop, height matches container. -->
             <img src="torleft.gif" alt="Header Art Left" class="w-1/2 md:w-auto h-auto md:h-full object-contain object-left pointer-events-none opacity-40 md:opacity-100">
             <img src="orbright.gif" alt="Header Art Right" class="w-1/2 md:w-auto h-auto md:h-full object-contain object-right pointer-events-none opacity-40 md:opacity-100">
         </div>
-        
+
         <!-- Text Layer: Absolute on mobile (overlaying images), relative on desktop (defining height with padding) -->
         <div class="absolute md:relative inset-0 md:inset-auto flex flex-col items-center justify-center px-2 z-10 w-full md:py-16">
             <!-- Fluid typography ensures text shrinks exactly alongside the images on mobile -->
@@ -97,7 +97,7 @@
                         <p class="text-[#e0d6c8]">Tuesday events are free to play! If you want something with a little more on the line check out our monthly event.</p>
                         <div class="flex flex-col sm:flex-row sm:items-center gap-4">
                             <a href="https://discord.gg/JNKJAEs92h" target="_blank" rel="noopener noreferrer" class="block w-full sm:inline-block sm:w-auto text-center bg-[#8c734a] hover:bg-[#a68a5c] text-[#1a1612] font-bold px-4 py-2 sm:py-1.5 rounded-sm text-sm transition-colors shadow-md border border-[#dcb773]">Join the Discord</a>
-                            
+
                             <!-- Discord Member Stats Widget (Static Fetch on Load) -->
                             <div id="discord-widget" class="inline-flex items-center gap-6 font-serif text-[#bdae93] text-sm tracking-wide">
                               <!-- Online Stat -->
@@ -147,7 +147,7 @@
             </ul>
         </section>
 
-	<!-- Hall of Records / Past Results -->
+        <!-- Hall of Records / Past Results -->
         <section class="bg-[#2a231d] rounded-sm p-6 md:p-8 border-2 border-[#5c4e3d] shadow-[inset_0_0_15px_rgba(0,0,0,0.6)] relative">
             <h2 class="text-xl md:text-2xl font-bold text-[#dcb773] mb-4 flex items-center gap-2 uppercase tracking-wide">
                 🏛️ Hall of Records
@@ -199,10 +199,14 @@
 
                 <div>
                     <h3 class="text-lg md:text-xl font-bold text-[#dcb773] mb-3 font-sans uppercase tracking-wider border-l-2 border-[#8c734a] pl-2">Approved Proxy Methods</h3>
-                    <div class="grid md:grid-cols-2 gap-4">
+                    <div class="grid lg:grid-cols-3 gap-4">
                         <div class="bg-[#2a231d] p-5 border border-[#5c4e3d] shadow-md relative">
                             <h4 class="font-bold text-[#dcb773] mb-2 uppercase tracking-wide text-sm md:text-base">Budget (The Sleeve Method)</h4>
                             <p class="text-sm md:text-base text-[#e0d6c8]">Use <a href="https://proxxied.com" target="_blank" class="text-[#8c734a] hover:underline font-bold">Proxxied.com</a> to generate printable sheets. Cut these out and slide them into a sleeve in front of a basic land. This is the standard for most players.</p>
+                        </div>
+                        <div class="bg-[#2a231d] p-5 border border-[#5c4e3d] shadow-md relative">
+                            <h4 class="font-bold text-[#dcb773] mb-2 uppercase tracking-wide text-sm md:text-base">Preferred (Local Prints)</h4>
+                            <p class="text-sm md:text-base text-[#e0d6c8]">High-quality, local prints crafted by our organizers—the exact same excellent quality you see in our loaner decks. Avoid the overseas wait times with a fast turnaround that gets you playing sooner. <a href="/orders/" class="text-[#8c734a] hover:underline font-bold">Start your order here.</a></p>
                         </div>
                         <div class="bg-[#2a231d] p-5 border border-[#5c4e3d] shadow-md relative">
                             <h4 class="font-bold text-[#dcb773] mb-2 uppercase tracking-wide text-sm md:text-base">Premium (Professional Prints)</h4>
@@ -240,7 +244,7 @@
                 <!-- Deck Slide Wrapper -->
                 <div id="deckCarousel" class="overflow-hidden relative px-10 md:px-16">
                     <div id="deckTrack" class="flex transition-transform duration-300 ease-in-out">
-                        
+
                         <!-- Deck 1 -->
                         <div class="w-full flex-shrink-0 flex flex-col items-center">
                             <div class="w-full max-w-sm md:max-w-md bg-[#1a1612] rounded-sm overflow-hidden shadow-lg border-2 border-[#5c4e3d] hover:border-[#dcb773] transition-colors group cursor-zoom-in deck-slide-item">
@@ -486,16 +490,16 @@
             const openAction = function() {
                 const sourceToUse = img.src.includes('placehold.co') ? img.src : img.getAttribute('src');
                 modalImg.src = sourceToUse;
-                
+
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
-                
+
                 setTimeout(() => {
                     modal.classList.remove('opacity-0');
                     modalImg.classList.remove('scale-95');
                     modalImg.classList.add('scale-100');
                 }, 10);
-                
+
                 document.body.style.overflow = 'hidden';
             };
 
@@ -510,7 +514,7 @@
             modal.classList.add('opacity-0');
             modalImg.classList.remove('scale-100');
             modalImg.classList.add('scale-95');
-            
+
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
@@ -526,7 +530,7 @@
         });
 
         closeBtn.addEventListener('click', closeModal);
-        
+
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
                 closeModal();
@@ -542,29 +546,30 @@
                 }
             }
         });
-// Discord Widget Fetch
-async function fetchDiscordStats() {
-  const workerUrl = 'https://discordstatbot.eric-d-schaub.workers.dev/';
-  
-  try {
-    const response = await fetch(workerUrl);
-    if (!response.ok) throw new Error('Network response failed');
-    
-    const data = await response.json();
-    
-    // Successfully got the data, update the numbers and stop trying
-    document.getElementById('discord-online').innerText = (data.online || 0).toLocaleString();
-    document.getElementById('discord-total').innerText = (data.total || 0).toLocaleString();
-  } catch (error) {
-    console.warn('Discord stats fetch delayed, retrying in 3 seconds...', error);
-    // Automatically try again in 3 seconds until it succeeds
-    setTimeout(fetchDiscordStats, 500);
-  }
-}
 
-// Kick off the initial fetch on page load
-fetchDiscordStats();
-        
+        // Discord Widget Fetch
+        async function fetchDiscordStats() {
+          const workerUrl = 'https://discordstatbot.eric-d-schaub.workers.dev/';
+
+          try {
+            const response = await fetch(workerUrl);
+            if (!response.ok) throw new Error('Network response failed');
+
+            const data = await response.json();
+
+            // Successfully got the data, update the numbers and stop trying
+            document.getElementById('discord-online').innerText = (data.online || 0).toLocaleString();
+            document.getElementById('discord-total').innerText = (data.total || 0).toLocaleString();
+          } catch (error) {
+            console.warn('Discord stats fetch delayed, retrying in 3 seconds...', error);
+            // Automatically try again in 3 seconds until it succeeds
+            setTimeout(fetchDiscordStats, 500);
+          }
+        }
+
+        // Kick off the initial fetch on page load
+        fetchDiscordStats();
+
     </script>
 </body>
 </html>
