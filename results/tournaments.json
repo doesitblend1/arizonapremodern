@@ -16,5 +16,11 @@
     "date": "2026-10-03",
     "standingsFile": "October-Monthly-2026-Standings.json",
     "decklistsFile": "October-Monthly-2026-Decklists.json"
-  }
+  },
+  {
+    "name": "Arizona Premodern October 2026 Monthly",
+    "date": "2026-11-07",
+    "standingsFile": "November-Monthly-2026-Standings.json",
+    "decklistsFile": "November-Monthly-2026-Decklists.json"
+  }  
 ]
